@@ -1,0 +1,77 @@
+/* Bootstrap overrides */
+html {
+    font-size: 16px;
+    background-color: #1D3557;
+    position: relative;
+}
+
+body {
+    background-color: #1D3557;
+    padding-bottom: 60px;
+}
+
+.row {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+/* Responsive content */
+@media (max-width: 1420px) {
+    .hide-image {
+        display: none;
+    }
+}
+
+@media (max-width: 1466px){
+    .certificates {
+        justify-content: space-around;
+    }
+}
+@media (min-width: 1467px){
+    .certificates {
+        justify-content: space-evenly;
+    }
+}
+
+@media (min-width: 756px){
+    .pdf {
+        width: 1200px;
+        height: 1200px;
+    }
+}
+
+@media (max-width: 755px){
+    .pdf {
+        display: none;
+    }
+}
+
+/* Page color classes */
+.bg-primary {
+    background-color: #FCBF49 !important
+}
+
+.bg-secondary {
+    background-color: #003049 !important
+}
+
+.text-light {
+    color: #FCBF49 !important;
+}
+
+.text-dark {
+    color: #003049 !important;
+}
+
+/* Custom classes */
+.description {
+    font-size: 1.5rem;
+}
+
+.form-text {
+    font-size: 1.25rem;
+}
+
+.divider {
+    border-bottom: 5px #212529 solid !important;
+}
