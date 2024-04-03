@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using System.Net;
 using System.Net.Mail;
 
 namespace NathanPortfolio.CustomServices
@@ -7,11 +9,19 @@ namespace NathanPortfolio.CustomServices
     {
         public async Task SendEmailAsync(string firstName, string lastName, string fromEmail, string body, IConfiguration configuration)
         {
-            string sendFromEmail = configuration["email:send-from-email"] ?? "";
-            string sendToEmail = configuration["email:send-to-email"] ?? "";
-            string emailPass = configuration["passwords:email-password"] ?? "";
+            Uri keyVaultUri = new(configuration.GetSection("VaultURL").Value!);
 
-            var client = new SmtpClient("smtp.office365.com", 587)
+            var secretClient = new SecretClient(keyVaultUri, new DefaultAzureCredential());
+
+            KeyVaultSecret sendFromEmailSecret = await secretClient.GetSecretAsync("Send--From--Email");
+            KeyVaultSecret sendToEmailSecret = await secretClient.GetSecretAsync("Send--Email");
+            KeyVaultSecret emailPassSecret = await secretClient.GetSecretAsync("Email--Pass");
+
+            string sendFromEmail = sendFromEmailSecret.Value ?? "";
+            string sendToEmail = sendToEmailSecret.Value ?? "";
+            string emailPass = emailPassSecret.Value ?? "";
+
+            SmtpClient client = new("smtp.office365.com", 587)
             {
                 EnableSsl = true,
                 Credentials = new NetworkCredential(sendFromEmail, emailPass),
