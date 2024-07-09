@@ -15,6 +15,5 @@
 ## Hosting
 - Azure Websites
 
-# URLs
-- https://nathan-carpenter.com/
+# URL
 - https://nathansporfolio.azurewebsites.net/
