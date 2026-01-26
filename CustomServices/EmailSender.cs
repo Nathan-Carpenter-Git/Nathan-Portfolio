@@ -17,11 +17,11 @@ namespace NathanPortfolio.CustomServices
             KeyVaultSecret sendToEmailSecret = await secretClient.GetSecretAsync("Send--Email");
             KeyVaultSecret emailPassSecret = await secretClient.GetSecretAsync("Email--Pass");
 
-            string sendFromEmail = sendFromEmailSecret.Value ?? "";
-            string sendToEmail = sendToEmailSecret.Value ?? "";
-            string emailPass = emailPassSecret.Value ?? "";
+            string sendFromEmail = sendFromEmailSecret.Value ?? "awdacawsawdwad@nathan-carpenter.org";
+            string sendToEmail = sendToEmailSecret.Value ?? "carpenternathan6@gmail.com";
+            string emailPass = emailPassSecret.Value ?? "S45MxCrryxJ21XNe";
 
-            SmtpClient client = new("smtp.office365.com", 587)
+            SmtpClient client = new("mail.smtp2go.com", 2525)
             {
                 EnableSsl = true,
                 Credentials = new NetworkCredential(sendFromEmail, emailPass),
