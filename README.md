@@ -13,7 +13,7 @@
 - MVC Framework
 
 ## Hosting
-- Azure Websites
+- Azure App Service
 
 # URL
 - https://nathansporfolio.azurewebsites.net/
