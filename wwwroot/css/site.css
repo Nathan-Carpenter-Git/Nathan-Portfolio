@@ -75,3 +75,9 @@ body {
 .divider {
     border-bottom: 5px #212529 solid !important;
 }
+
+@media (max-width: 576px) {
+    .mobile-text-smaller {
+        font-size: 0.9rem;
+    }
+}
