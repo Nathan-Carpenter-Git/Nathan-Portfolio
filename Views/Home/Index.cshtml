@@ -1,77 +1,176 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<link rel="stylesheet" href="~/css/nathan-portfolio.css" />
 
-<div class="sticky-lg-top col p-lg-3 pt-lg-1 p-1" style="margin-top: -250px; width: 40px; height: 100%;">
-    <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" style="width: 40px; height: 40px"> 
-        <img src="/shared/icons/icon_github.png" class="row m-4" style="height: 100%; width: 40px;"/>
+
+<!-- ── Floating Social Sidebar ── -->
+<div class="social-sidebar">
+    <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" class="social-icon-link" title="GitHub">
+        <img src="/shared/icons/icon_github.png" alt="GitHub" />
     </a>
-
-    <a href="https://dusty-studios.itch.io" target="_blank" style="width: 40px"> 
-        <img src="/shared/icons/icon_itchio.png" class="row m-4" style="height: 100%; width: 40px;"/>
+    <a href="https://dusty-studios.itch.io" target="_blank" class="social-icon-link" title="itch.io">
+        <img src="/shared/icons/icon_itchio.png" alt="itch.io" />
     </a>
-
-    <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" style="width: 40px"> 
-        <img src="/shared/icons/icon_linkedin.png" class="row m-4" style="height: 100%; width: 40px;"/>
+    <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" class="social-icon-link" title="LinkedIn">
+        <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" />
     </a>
 </div>
 
-<div class="col py-0">
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section class="hero-section">
+    <div>
+        <p class="hero-eyebrow">IT &amp; Network Professional</p>
+        <h1 class="hero-name">
+            Nathan<br><span class="accent">Carpenter</span>
+        </h1>
+        <p class="hero-tagline">
+            Building secure, scalable infrastructure — from multi-site banking networks to Azure cloud deployments.
+        </p>
+        <div class="hero-badges">
+            <span class="badge-tech">Network+</span>
+            <span class="badge-tech">AZ-900</span>
+            <span class="badge-tech">Windows Server</span>
+            <span class="badge-tech">Entra ID</span>
+            <span class="badge-tech">Intune</span>
+            <span class="badge-tech">Virtualization</span>
+        </div>
 
-    <!--Title-->
-    <div class="bg-secondary row p-5 divider">
-        <p class="display-1 font-monospace text-center text-light">Hello! Welcome to my web page!</p>
-    </div>
-
-    <!--About Me-->
-    <div class="bg-primary row py-5 divider justify-content-center font-monospace text-dark">
-        <p class="display-4 pt-2 text-center">About Me</p>
-        <div class="row">
-            <img src="/shared/NathanFrame.jpg" class="hide-image px-lg-3 col-1 align-self-center" style="height: 600px; width: 500px;"/>
-            <div class="col-lg description mobile-text-smaller">
-                <p>My experience spans a wide range of technologies, providing me with a solid foundation in network architecture, system administration, identity and access management, automation, and secure infrastructure deployment. I am well-versed in tools and concepts such as virtual networking, firewalls, routing and switching, virtualization, and cloud services including Azure Virtual Networks, Virtual Machines, and App Services. I leverage these technologies to build reliable, efficient, and secure solutions tailored to organizational needs.</p>
-
-                <p>In addition to my technical background, I bring valuable experience managing banking infrastructure within a New York-based institution operating across seven branches. In this role, I was responsible for maintaining and optimizing a multi-site network environment, supporting secure inter-branch connectivity, managing centralized systems, and ensuring high availability and compliance within a regulated financial setting. This experience strengthened my ability to work in high-stakes environments where reliability, security, and attention to detail are critical.</p>
-
-                <p>Beyond technical expertise, I place a strong emphasis on teamwork, communication, and adaptability. I have consistently sought opportunities to collaborate with cross-functional teams, recognizing the value of diverse perspectives in solving complex problems. As I continue to grow in the IT and networking field, I am driven to contribute dependable, secure, and high-quality solutions that align with organizational goals and evolving technology demands.</p>
-            </div>
-
-            <p class="fw-bold row description p-3 justify-content-center">For specifics on my experience and skills, check out my resume below!</p>
+        <!-- Social icons — visible on mobile only -->
+        <div class="mobile-social-bar">
+            <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" class="social-icon-link" title="GitHub">
+                <img src="/shared/icons/icon_github.png" alt="GitHub" />
+            </a>
+            <a href="https://dusty-studios.itch.io" target="_blank" class="social-icon-link" title="itch.io">
+                <img src="/shared/icons/icon_itchio.png" alt="itch.io" />
+            </a>
+            <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" class="social-icon-link" title="LinkedIn">
+                <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" />
+            </a>
         </div>
     </div>
 
-    <!--Certificates-->
-    <div class="bg-secondary row py-5 divider justify-content-center font-monospace text-light">
-        <p class="display-4 pt-2 text-center">Certificates</p>
-        <div class="d-flex flex-wrap certificates text-center description">
-            <div class="flex-column mx-3">
-                <p>Network+ Certificate</p>
-                <img src="/shared/ComptiaNetwork.png" class="row" style="height: 300px; width: 100%;" />
-            </div>
-            <div class="flex-column mx-3">
-                <p>AZ-900 Certificate</p>
-                <img src="/shared/AZ-900.png" class="row" style="height: 300px; width: 100%;" />
-            </div>
-            <div class="flex-column mx-3">
-                <p>AIT Certificate</p>
-                <img src="/shared/JCCITCertificate.png" class="row" style="height: 300px; width: 100%;"/>
-            </div>
-            <div class="flex-column mx-3">
-                <p>Network Pro Certificate</p>
-                <img src="/shared/TestOutNetworkPro.png" class="row" style="height: 300px; width: 100%;"/>
-            </div>
-            <div class="flex-column mx-3">
-                <p>PC Pro Certificate</p>
-                <img src="/shared/TestOutPCPro.png" class="row" style="height: 300px; width: 100%;"/>
-            </div>
+    <!-- Decorative terminal window -->
+    <div class="hero-terminal">
+        <div class="terminal-bar">
+            <span class="t-dot"></span>
+            <span class="t-dot"></span>
+            <span class="t-dot"></span>
+            <span class="terminal-title">nathan@portfolio ~ </span>
+        </div>
+        <div class="terminal-body">
+            <div><span class="t-prompt">▶</span> <span class="t-cmd">whoami</span></div>
+            <div class="t-out">nathan-carpenter</div>
+            <div style="margin-top:8px"><span class="t-prompt">▶</span> <span class="t-cmd">cat skills.txt</span></div>
+            <div class="t-out">Networking</div>
+            <div class="t-out">Cloud Infrastructure (Azure)</div>
+            <div class="t-out">SQL Databases</div>
+            <div class="t-out">System Administration</div>
+            <div class="t-out">Powershell</div>
+            <div style="margin-top:8px"><span class="t-prompt">▶</span> <span class="t-cmd">status</span></div>
+            <div class="t-out">Open to opportunities <span class="t-cursor"></span></div>
         </div>
     </div>
 
-    <!--Resume-->
-    <div class="bg-primary row py-5 divider justify-content-center font-monospace text-dark">
-        <p class="display-4 pt-2 text-center">Resume</p>
-        <embed class="pdf" src="/shared/docs/resume(5).pdf" style="width: 1900px; height: 1200px; padding-left: 10%; padding-right: 10%"/>
-        <a class="text-center p-2 text-dark" href="/shared/docs/resume(5).pdf">Download PDF</a>
+    <div class="scroll-hint">scroll</div>
+</section>
+
+<div class="nc-divider"></div>
+
+<!-- ══════════════════════════════
+     ABOUT ME
+══════════════════════════════ -->
+<section class="nc-section reveal">
+    <div class="section-label">01</div>
+    <h2 class="section-heading">About <span>Me</span></h2>
+
+    <div class="about-grid">
+        <div class="about-photo-wrapper reveal reveal-delay-1">
+            <img src="/shared/NathanFrame.jpg" class="about-photo" alt="Nathan Carpenter" />
+        </div>
+
+        <div class="about-paragraphs reveal reveal-delay-2">
+            <p>My experience spans a wide range of technologies, providing me with a solid foundation in network architecture, system administration, identity and access management, automation, and secure infrastructure deployment. I am well-versed in tools and concepts such as virtual networking, firewalls, routing and switching, virtualization, and cloud services including Azure Virtual Networks, Virtual Machines, and App Services.</p>
+
+            <p>In addition to my technical background, I bring valuable experience managing banking infrastructure within a New York-based institution operating across seven branches. In this role, I was responsible for maintaining and optimizing a multi-site network environment, supporting secure inter-branch connectivity, managing centralized systems, and ensuring high availability and compliance within a regulated financial setting.</p>
+
+            <p>Beyond technical expertise, I place a strong emphasis on teamwork, communication, and adaptability. I have consistently sought opportunities to collaborate with cross-functional teams, recognizing the value of diverse perspectives in solving complex problems.</p>
+
+            <a href="/shared/docs/resume(5).pdf" class="resume-cta">Download My Resume</a>
+        </div>
     </div>
-</div>
+</section>
+
+<div class="nc-divider"></div>
+
+<!-- ══════════════════════════════
+     CERTIFICATES
+══════════════════════════════ -->
+<section class="nc-section reveal">
+    <div class="section-label">02</div>
+    <h2 class="section-heading">Certifi<span>cations</span></h2>
+
+    <div class="certs-track">
+        <div class="cert-card reveal reveal-delay-1">
+            <img src="/shared/ComptiaNetwork.png" alt="Network+ Certificate" />
+            <p class="cert-name">CompTIA Network+</p>
+        </div>
+        <div class="cert-card reveal reveal-delay-2">
+            <img src="/shared/AZ-900.png" alt="AZ-900 Certificate" />
+            <p class="cert-name">Azure Fundamentals AZ-900</p>
+        </div>
+        <div class="cert-card reveal reveal-delay-3">
+            <img src="/shared/JCCITCertificate.png" alt="AIT Certificate" />
+            <p class="cert-name">AIT Certificate</p>
+        </div>
+        <div class="cert-card reveal reveal-delay-4">
+            <img src="/shared/TestOutNetworkPro.png" alt="Network Pro Certificate" />
+            <p class="cert-name">TestOut Network Pro</p>
+        </div>
+        <div class="cert-card reveal reveal-delay-5">
+            <img src="/shared/TestOutPCPro.png" alt="PC Pro Certificate" />
+            <p class="cert-name">TestOut PC Pro</p>
+        </div>
+    </div>
+</section>
+
+<div class="nc-divider"></div>
+
+<!-- ══════════════════════════════
+     RESUME
+══════════════════════════════ -->
+<section class="nc-section reveal">
+    <div class="section-label">03</div>
+    <h2 class="section-heading">Ré<span>sumé</span></h2>
+
+    <div class="resume-embed-wrapper">
+        <div class="resume-toolbar">
+            <span class="resume-toolbar-label">// resume(5).pdf</span>
+            <a class="resume-download-btn" href="/shared/docs/resume(5).pdf" download>↓ Download PDF</a>
+        </div>
+        <embed src="/shared/docs/resume(5).pdf" type="application/pdf" />
+
+        <!-- Shown on mobile instead of the embed -->
+        <div class="resume-mobile-cta">
+            <p>PDF preview isn't available on mobile. Download the file to view my full resume.</p>
+            <a href="/shared/docs/resume(5).pdf" download>↓ Download Resume PDF</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Intersection Observer for scroll-triggered reveals
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    revealEls.forEach(el => observer.observe(el));
+</script>

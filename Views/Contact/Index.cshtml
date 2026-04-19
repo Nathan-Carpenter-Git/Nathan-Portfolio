@@ -1,51 +1,123 @@
-﻿@model ContactUserMessage
+@model ContactUserMessage
 
 @{
     ViewData["Title"] = "Contact";
     string responseMessage = Context.Request.Query["ResponseMessage"].ToString();
 }
 
-<div class="col py-0">
-    <div class="bg-secondary row p-5 divider">
-        <p class="display-1 font-monospace text-center text-light">Contact Me</p>
-    </div>
+<link rel="stylesheet" href="~/css/nathan-portfolio.css" asp-append-version="true" />
 
-    <div class="bg-primary divider align-content-center row font-monospace text-dark" style="height: 1000px;">
-        <p class="display-6 text-center">Contact Information</p>
-        @if (!String.IsNullOrEmpty(responseMessage))
-        {
-            @if (responseMessage == "Email Sent Unsuccessfully")
-            {
-                <p class="description text-center mb-0 text-danger">@responseMessage</p>
-            }
-            else if (responseMessage == "Email Sent Sucessfully")
-            {
-                <p class="description text-center mb-0 text-success">@responseMessage</p>
-            }
-        }
+<section class="nc-section contact-section">
+    <div class="section-label">04</div>
+    <h1 class="section-heading">Get In <span>Touch</span></h1>
 
-        <div style="padding-left: 25%; padding-right: 25%;">
-            <form method="post" id="contact-form">
-                <div class="flex-column d-flex p-2">
-                    <label for="firstName" class="description">First Name</label>
-                    <input type="text" placeholder="John" class="p-2 my-3 form-text" id="firstName" name="firstName" asp-for="FirstName" required />
+    <div class="contact-grid">
 
-                    <label for="lastName" class="description">Last Name</label>
-                    <input type="text" placeholder="Doe" class="p-2 my-3 form-text" id="lastName" name="lastName" asp-for="LastName" required />
+        <!-- ── Left: info panel ── -->
+        <div>
+            <p class="contact-info-label">
+                Have a question, opportunity, or just want to say hello?<br />
+                Fill out the form or check my out other projects directly through the links below
+            </p>
 
-                    <label for="email" class="description">Email Address</label>
-                    <input type="email" class="p-2 my-3 form-text" placeholder="123@gmail.com" id="email" name="email" asp-for="Email" required />
-                </div>
+            <div class="contact-info-links">
+                <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" class="contact-info-link">
+                    <div class="contact-info-link-icon">in</div>
+                    <div class="contact-info-link-text">
+                        <span class="contact-info-link-title">LinkedIn</span>
+                        <span class="contact-info-link-value">nathan-b-carpenter</span>
+                    </div>
+                </a>
 
-                <div class="flex-column d-flex p-2">
-                    <label for="message" class="description">Message</label>
-                    <textarea id="message" class="my-3 form-text" name="message" placeholder="Enter message" rows="4" asp-for="Message" cols="100"></textarea>
-                </div>
+                <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" class="contact-info-link">
+                    <div class="contact-info-link-icon">gh</div>
+                    <div class="contact-info-link-text">
+                        <span class="contact-info-link-title">GitHub</span>
+                        <span class="contact-info-link-value">Nathan-Carpenter-Git</span>
+                    </div>
+                </a>
 
-                <div class="d-flex justify-content-center p-2">
-                    <input type="submit" placeholder="Submit" style="width: 75%; height: 50px"/>
-                </div>
-            </form>
+                <a href="https://dusty-studios.itch.io" target="_blank" class="contact-info-link">
+                    <div class="contact-info-link-icon">it</div>
+                    <div class="contact-info-link-text">
+                        <span class="contact-info-link-title">itch.io</span>
+                        <span class="contact-info-link-value">dusty-studios</span>
+                    </div>
+                </a>
+            </div>
         </div>
+
+        <!-- ── Right: form card ── -->
+        <div class="contact-form-card reveal">
+            <div class="contact-form-header">
+                <span class="form-header-dot"></span>
+                <span class="form-header-dot"></span>
+                <span class="form-header-dot"></span>
+                <span class="form-header-label">// new-message.txt</span>
+            </div>
+
+            <div class="contact-form-body">
+
+                @if (!String.IsNullOrEmpty(responseMessage))
+                {
+                    if (responseMessage == "Email Sent Unsuccessfully")
+                    {
+                        <div class="nc-response nc-response-error">
+                            ✕ &nbsp;@responseMessage — please try again.
+                        </div>
+                    }
+                    else if (responseMessage == "Email Sent Sucessfully")
+                    {
+                        <div class="nc-response nc-response-success">
+                            ✓ &nbsp;@responseMessage — I'll be in touch soon!
+                        </div>
+                    }
+                }
+
+                <form method="post" id="contact-form">
+
+                    <div class="form-row-2">
+                        <div class="nc-form-group">
+                            <label class="nc-label" for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" asp-for="FirstName"
+                                   class="nc-input" placeholder="John" required />
+                        </div>
+
+                        <div class="nc-form-group">
+                            <label class="nc-label" for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" asp-for="LastName"
+                                   class="nc-input" placeholder="Doe" required />
+                        </div>
+                    </div>
+
+                    <div class="nc-form-group">
+                        <label class="nc-label" for="email">Email Address</label>
+                        <input type="email" id="email" name="email" asp-for="Email"
+                               class="nc-input" placeholder="john@example.com" required />
+                    </div>
+
+                    <div class="nc-form-group">
+                        <label class="nc-label" for="message">Message</label>
+                        <textarea id="message" name="message" asp-for="Message"
+                                  class="nc-textarea" placeholder="Enter your message..."></textarea>
+                    </div>
+
+                    <input type="submit" class="nc-submit" value="Send Message" />
+
+                </form>
+            </div>
+        </div>
+
     </div>
-</div>
+</section>
+
+<script>
+    // Trigger reveal animation on the form card
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+</script>

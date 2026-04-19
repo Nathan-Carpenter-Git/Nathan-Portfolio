@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,19 +8,96 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NathanPortfolio.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/nathan-portfolio.css" asp-append-version="true" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
+
+    <!-- ══════════════════════════════
+         NAVBAR
+    ══════════════════════════════ -->
+    <nav class="nc-nav" id="ncNav">
+        <a href="/" class="nc-nav-logo">
+            <div class="nav-logo-mark">NC</div>
+            <span class="nav-logo-text">Nathan <span>Carpenter</span></span>
+        </a>
+
+        <ul class="nc-nav-links">
+            <li><a href="/" class="nav-index">// Home</a></li>
+            <li><a href="/Contact" class="nav-cta">Contact Me</a></li>
+        </ul>
+
+        <button class="nc-hamburger" id="ncHamburger" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile drawer -->
+    <div class="nc-mobile-menu" id="ncMobileMenu">
+        <ul>
+            <li><a href="/">// Home</a></li>
+            <li><a href="/Contact" class="nav-cta">Contact Me</a></li>
+        </ul>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAGE CONTENT
+    ══════════════════════════════ -->
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
 
-    <footer class="footer text-light text-wrap" style="max-height: 100px">
-            &copy; 2024 - Nathan's Portfolio | @Html.ActionLink("Home", "Index", "Home") | @Html.ActionLink("Contact me", "Index", "Contact")
+    <!-- ══════════════════════════════
+         FOOTER
+    ══════════════════════════════ -->
+    <footer class="nc-footer">
+        <p class="footer-copy">
+            <span>Nathan's Portfolio Site</span>
+        </p>
+        <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><div class="footer-divider"></div></li>
+            <li>@Html.ActionLink("Contact Me", "Index", "Contact")</li>
+        </ul>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // Navbar darkens on scroll
+        const nav = document.getElementById('ncNav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Hamburger toggle
+        const btn  = document.getElementById('ncHamburger');
+        const menu = document.getElementById('ncMobileMenu');
+
+        btn.addEventListener('click', () => {
+            const isOpen = menu.classList.toggle('open');
+            btn.classList.toggle('open', isOpen);
+            btn.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Close drawer when a link inside it is tapped
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('open');
+                btn.classList.remove('open');
+            });
+        });
+
+        // Highlight the active nav link
+        const path = window.location.pathname;
+        document.querySelectorAll('.nc-nav-links a, .nc-mobile-menu a').forEach(a => {
+            if (a.getAttribute('href') === path) a.classList.add('active');
+        });
+    </script>
 </body>
 </html>
