@@ -149,8 +149,9 @@ body::before {
 
 @media (max-width: 768px) {
     .section-heading {
-        font-size: clamp(1.9rem, 10vw, 2.6rem);
+        font-size: clamp(1.5rem, 7.5vw, 2.6rem);
         margin-bottom: 28px;
+        overflow-wrap: break-word;
     }
 }
 
@@ -1004,24 +1005,28 @@ body {
     color: #7a9bb5;
     text-decoration: none;
     border-radius: 7px;
-    border: 1px solid transparent;
+    border: 1px solid rgba(0, 229, 255, 0.2);
     text-transform: uppercase;
     transition: all 0.2s;
+    text-align: center;
 }
 
 .nc-mobile-menu a:hover {
     color: #00e5ff;
-    border-color: rgba(0, 229, 255, 0.2);
+    border-color: rgba(0, 229, 255, 0.4);
     background: rgba(0, 229, 255, 0.05);
     text-decoration: none;
 }
 
-.nc-mobile-menu .nav-cta {
+.nc-mobile-menu a.active {
     color: #00e5ff;
-    border-color: rgba(0, 229, 255, 0.3);
-    background: rgba(0, 229, 255, 0.05);
+    border-color: rgba(0, 229, 255, 0.5);
+    background: rgba(0, 229, 255, 0.08);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+}
+
+.nc-mobile-menu .nav-cta {
     margin-top: 4px;
-    text-align: center;
 }
 
 @media (max-width: 768px) {
