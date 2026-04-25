@@ -3,13 +3,13 @@
 // ── State ────────────────────────────────────────────────
 // Each entry: { role: "user"|"assistant", content: "..." }
 let messageHistory = [];
-let isWaiting      = false;
+let isWaiting = false;
 
 // ── Element refs ─────────────────────────────────────────
 const chatMessages = document.getElementById('chatMessages');
-const chatInput    = document.getElementById('chatInput');
-const sendBtn      = document.getElementById('sendBtn');
-const emptyState   = document.getElementById('emptyState');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+const emptyState = document.getElementById('emptyState');
 
 // ── Clear chat ────────────────────────────────────────────
 document.getElementById('btnClear').addEventListener('click', () => {
@@ -74,7 +74,7 @@ async function sendMessage() {
 
     // Reset input
     chatInput.value = '';
-    chatInput.style.height = '0';
+    chatInput.style.height = '';
     sendBtn.disabled = true;
     isWaiting = true;
 
