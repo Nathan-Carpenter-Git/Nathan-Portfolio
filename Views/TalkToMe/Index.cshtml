@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Talk To Me";
+}
+
+<div class="chat-page">
+
+    <!-- ── Top bar ── -->
+    <div class="chat-topbar">
+        <div class="chat-topbar-left">
+            <span class="chat-topbar-title">Talk To Me</span>
+            <div class="chat-model-badge">
+                <span class="chat-model-dot"></span>
+                openrouter/free
+            </div>
+        </div>
+        <div class="chat-topbar-actions">
+            <!-- Clear chat -->
+            <button class="chat-icon-btn" id="btnClear" title="Clear conversation">&#10005;</button>
+        </div>
+    </div>
+
+    <!-- ── Messages ── -->
+    <div class="chat-messages" id="chatMessages">
+        <div class="chat-empty" id="emptyState">
+            <div class="chat-empty-icon">&#9678;</div>
+            <span>No messages yet — say something.</span>
+        </div>
+    </div>
+
+    <!-- ── Input ── -->
+    <div class="chat-input-area">
+        <div class="chat-input-wrapper">
+            <textarea class="chat-input" id="chatInput"
+                      placeholder="Message the AI..."
+                      rows="1"></textarea>
+            <button class="chat-send-btn" id="sendBtn" disabled title="Send">
+                &#9650;
+            </button>
+        </div>
+        <p class="chat-hint">Enter to send &nbsp;·&nbsp; Shift+Enter for new line</p>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/talktome.js" asp-append-version="true"></script>
+}

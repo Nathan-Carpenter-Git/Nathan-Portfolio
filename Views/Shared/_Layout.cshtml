@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nathan's Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="/n-logo.ico"/>
+    <link rel="icon" type="image/x-icon" href="/n-logo.ico" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NathanPortfolio.styles.css" asp-append-version="true" />
@@ -24,6 +24,7 @@
 
         <ul class="nc-nav-links">
             <li><a href="/" class="nav-index">// Home</a></li>
+            <li><a href="/TalkToMe">Talk To Me</a></li>
             <li><a href="/Contact" class="nav-cta">Contact Me</a></li>
         </ul>
 
@@ -38,6 +39,7 @@
     <div class="nc-mobile-menu" id="ncMobileMenu">
         <ul>
             <li><a href="/">// Home</a></li>
+            <li><a href="/TalkToMe">Talk To Me</a></li>
             <li><a href="/Contact" class="nav-cta">Contact Me</a></li>
         </ul>
     </div>
@@ -54,10 +56,12 @@
     ══════════════════════════════ -->
     <footer class="nc-footer">
         <p class="footer-copy">
-            <span>Nathan's Portfolio Site</span>
+            &copy; 2024 &mdash; <span>Nathan's Portfolio</span>
         </p>
         <ul class="footer-links">
             <li><a href="/">Home</a></li>
+            <li><div class="footer-divider"></div></li>
+            <li><a href="/TalkToMe">Talk To Me</a></li>
             <li><div class="footer-divider"></div></li>
             <li>@Html.ActionLink("Contact Me", "Index", "Contact")</li>
         </ul>
@@ -76,7 +80,7 @@
         });
 
         // Hamburger toggle
-        const btn  = document.getElementById('ncHamburger');
+        const btn = document.getElementById('ncHamburger');
         const menu = document.getElementById('ncMobileMenu');
 
         btn.addEventListener('click', () => {

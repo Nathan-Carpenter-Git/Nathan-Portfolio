@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddHttpClient("OpenRouter");
+builder.Services.AddSingleton<IOpenRouterService, OpenRouterService>();
 
 var app = builder.Build();
 
