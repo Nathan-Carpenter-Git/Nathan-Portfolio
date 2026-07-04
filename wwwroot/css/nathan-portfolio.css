@@ -160,7 +160,7 @@ html, body {
 
 @media (max-width: 768px) {
     .section-heading {
-        font-size: clamp(1.5rem, 7.5vw, 2.6rem);
+        font-size: clamp(1.75rem, 8vw, 2.6rem);
         margin-bottom: 28px;
         overflow-wrap: break-word;
     }
@@ -218,7 +218,7 @@ html, body {
     color: var(--text-primary);
     margin-bottom: 24px;
     opacity: 0;
-    animation: fadeSlideUp 0.7s ease 0.4s forwards;
+    animation: fadeIn 0.7s ease 0.4s forwards;
 }
 
     .hero-name .accent {
@@ -438,6 +438,11 @@ html, body {
     .hero-tagline {
         font-size: 0.78rem;
     }
+
+    .section-heading {
+        font-size: clamp(1.5rem, 9vw, 2.2rem);
+        margin-bottom: 22px;
+    }
 }
 
 /* ══════════════════════════════
@@ -515,6 +520,36 @@ html, body {
         margin-top: 6px;
     }
 
+.about-highlights {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+    .about-highlights li {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--text-muted);
+    }
+
+.highlight-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--accent-cyan);
+    background: rgba(0,229,255,0.06);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-right: 8px;
+    text-transform: uppercase;
+}
+
 .resume-cta {
     display: inline-flex;
     align-items: center;
@@ -564,6 +599,16 @@ html, body {
             font-size: 1.8rem;
             margin-top: 4px;
         }
+
+    .about-highlights li {
+        font-size: 0.8rem;
+    }
+
+    .highlight-tag {
+        display: block;
+        width: fit-content;
+        margin-bottom: 4px;
+    }
 
     .resume-cta {
         width: 100%;
@@ -668,6 +713,196 @@ html, body {
 }
 
 /* ══════════════════════════════
+   TECH BADGE POPOVER
+══════════════════════════════ */
+.badge-tech,
+.cert-card {
+    cursor: pointer;
+}
+
+.tech-popover {
+    position: fixed;
+    z-index: 2000;
+    max-width: 260px;
+    background: var(--bg-card-hover);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5), var(--glow-sm);
+    opacity: 0;
+    transform: translateY(6px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+    .tech-popover.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .tech-popover-arrow {
+        position: absolute;
+        top: -6px;
+        left: 20px;
+        width: 12px;
+        height: 12px;
+        background: var(--bg-card-hover);
+        border-left: 1px solid var(--accent-cyan);
+        border-top: 1px solid var(--accent-cyan);
+        transform: rotate(45deg);
+    }
+
+    .tech-popover-text {
+        font-size: 0.78rem;
+        line-height: 1.55;
+        color: var(--text-primary);
+        margin: 0 0 8px;
+    }
+
+    .tech-popover-link {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--accent-cyan);
+        text-decoration: none;
+        letter-spacing: 0.05em;
+    }
+
+        .tech-popover-link:hover {
+            text-decoration: underline;
+        }
+
+/* ══════════════════════════════
+   CERT DETAIL MODAL
+══════════════════════════════ */
+.cert-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(4, 12, 24, 0.85);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+    .cert-modal-overlay.open {
+        opacity: 1;
+    }
+
+.cert-modal {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), var(--glow-cyan);
+    transform: translateY(20px);
+    transition: transform 0.25s ease;
+}
+
+    .cert-modal-overlay.open .cert-modal {
+        transform: translateY(0);
+    }
+
+.cert-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+    .cert-modal-close:hover {
+        border-color: var(--accent-cyan);
+        color: var(--accent-cyan);
+    }
+
+.cert-modal-img {
+    width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    background: rgba(0,229,255,0.03);
+    padding: 24px;
+    display: block;
+    box-sizing: border-box;
+}
+
+.cert-modal-body {
+    padding: 24px 28px 28px;
+}
+
+.cert-modal-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin: 0 0 16px;
+}
+
+.cert-modal-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 16px;
+    margin: 0 0 20px;
+}
+
+    .cert-modal-meta dt {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    .cert-modal-meta dd {
+        font-size: 0.85rem;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+.cert-modal-verify {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.25s;
+}
+
+    .cert-modal-verify:hover {
+        background: rgba(0,229,255,0.08);
+        box-shadow: var(--glow-cyan);
+    }
+
+@media (max-width: 480px) {
+    .cert-modal-body {
+        padding: 18px 18px 22px;
+    }
+
+    .cert-modal-name {
+        font-size: 1.1rem;
+    }
+}
+
+/* ══════════════════════════════
    RESUME
 ══════════════════════════════ */
 .resume-embed-wrapper {
@@ -717,65 +952,45 @@ html, body {
         text-decoration: none;
     }
 
-.resume-embed-wrapper embed {
-    display: block;
+.resume-canvas-wrapper {
+    position: relative;
     width: 100%;
-    height: 1000px;
-    border: none;
+    min-height: 300px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background: rgba(0,229,255,0.02);
+    padding: 20px 0;
+}
+
+    .resume-canvas-wrapper canvas {
+        display: block;
+        max-width: 100%;
+        border-radius: 4px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+.resume-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-align: center;
+    padding: 0 20px;
 }
 
 /* Resume — Phone */
-.resume-mobile-cta {
-    display: none;
-}
-
 @media (max-width: 768px) {
-    .resume-embed-wrapper embed {
-        display: none;
-    }
-
     .resume-toolbar-label {
         font-size: 0.62rem;
     }
 
-    .resume-mobile-cta {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        padding: 52px 24px;
-        text-align: center;
+    .resume-canvas-wrapper {
+        padding: 14px 0;
     }
-
-        .resume-mobile-cta p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            max-width: 280px;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        .resume-mobile-cta a {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            background: rgba(0,229,255,0.08);
-            border: 1px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.82rem;
-            letter-spacing: 0.1em;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.25s;
-        }
-
-            .resume-mobile-cta a:hover {
-                background: rgba(0,229,255,0.15);
-                box-shadow: var(--glow-cyan);
-            }
 }
 
 /* ══════════════════════════════
