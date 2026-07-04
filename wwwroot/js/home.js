@@ -16,30 +16,6 @@ const CERT_DATA = {
         issueDate: 'TODO-FILL-IN',
         credentialId: 'TODO-FILL-IN',
         verifyUrl: '#'
-    },
-    'ait-certificate': {
-        name: 'AIT Certificate',
-        image: '/shared/JCCITCertificate.png',
-        issuer: 'TODO-FILL-IN',
-        issueDate: 'TODO-FILL-IN',
-        credentialId: 'TODO-FILL-IN',
-        verifyUrl: '#'
-    },
-    'testout-network-pro': {
-        name: 'TestOut Network Pro',
-        image: '/shared/TestOutNetworkPro.png',
-        issuer: 'TestOut',
-        issueDate: 'TODO-FILL-IN',
-        credentialId: 'TODO-FILL-IN',
-        verifyUrl: '#'
-    },
-    'testout-pc-pro': {
-        name: 'TestOut PC Pro',
-        image: '/shared/TestOutPCPro.png',
-        issuer: 'TestOut',
-        issueDate: 'TODO-FILL-IN',
-        credentialId: 'TODO-FILL-IN',
-        verifyUrl: '#'
     }
 };
 
