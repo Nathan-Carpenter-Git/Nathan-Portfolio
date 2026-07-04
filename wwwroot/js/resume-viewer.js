@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!wrapper || !canvas) return;
 
     let pdfDoc = null;
+    let currentRenderTask = null;
 
     // The resume is a single page today; if it ever grows to multiple pages,
     // loop over doc.numPages and stack one <canvas> per page instead.
@@ -27,7 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.style.height = `${viewport.height}px`;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-            page.render({ canvasContext: ctx, viewport });
+            if (currentRenderTask) {
+                currentRenderTask.cancel();
+            }
+            currentRenderTask = page.render({ canvasContext: ctx, viewport });
+            currentRenderTask.promise.catch(err => {
+                if (err && err.name !== 'RenderingCancelledException') throw err;
+            });
         });
     }
 

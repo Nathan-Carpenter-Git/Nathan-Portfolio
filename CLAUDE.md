@@ -38,4 +38,10 @@ When running locally, `DefaultAzureCredential` needs a signed-in identity (e.g. 
 
 ### Frontend
 
-No JS bundler/build step - plain jQuery/Bootstrap plus hand-written vanilla JS (`wwwroot/js/site.js`, `wwwroot/js/talktome.js`) and CSS (`wwwroot/css/site.css`, `wwwroot/css/nathan-portfolio.css`), referenced directly from `Views/Shared/_Layout.cshtml`. Static assets are served as-is from `wwwroot/`; no `npm`/`package.json` in this project.
+No JS bundler/build step - plain jQuery/Bootstrap plus hand-written vanilla JS (`wwwroot/js/site.js`, `wwwroot/js/talktome.js`, `wwwroot/js/home.js`) and CSS (`wwwroot/css/site.css`, `wwwroot/css/nathan-portfolio.css`), referenced directly from `Views/Shared/_Layout.cshtml` or the relevant view. Static assets are served as-is from `wwwroot/`; no `npm`/`package.json` in this project.
+
+### Home page: resume viewer and cert/badge modals
+
+`Views/Home/Index.cshtml` renders the résumé as a `<canvas>` rather than an `<embed>`, drawn by `wwwroot/js/resume-viewer.js` (loaded as an ES module) using the vendored pdf.js build in `wwwroot/lib/pdfjs/` (`pdf.min.mjs` + `pdf.worker.min.mjs`, not from npm/CDN). It fetches `/shared/docs/resume.pdf`, renders page 1 scaled to the wrapper's width, and re-renders on window resize (debounced), cancelling any in-flight render task first to avoid overlapping renders against a stale canvas size.
+
+`wwwroot/js/home.js` drives two shared, dynamically-positioned overlays defined once in `Index.cshtml` and reused across triggers: a tech-badge popover (`#techPopover`, opened by `[data-badge]` elements in the hero) and a certification detail modal (`#certModalOverlay`, opened by `[data-cert]` elements in the certs section, or from a popover's "View certificate" link). Badge blurb text and cert metadata (issuer, issue date, credential ID, verify URL) live in the `BADGE_DATA`/`CERT_DATA` registries at the top of `home.js` - some `CERT_DATA` fields are `TODO-FILL-IN` placeholders pending real credential data.

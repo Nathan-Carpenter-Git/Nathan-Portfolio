@@ -6,6 +6,7 @@
 - JavaScript
 - jQuery
 - Boostrap
+- pdf.js (vendored, for the résumé preview)
 
 ## Back-end
 - C#
