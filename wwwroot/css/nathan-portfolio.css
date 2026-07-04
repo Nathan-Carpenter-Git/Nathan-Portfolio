@@ -1353,6 +1353,17 @@ body {
     color: var(--accent-cyan);
 }
 
+    .contact-info-link-icon img {
+        width: 18px;
+        height: 18px;
+        filter: brightness(0.7) invert(1);
+        transition: filter 0.3s;
+    }
+
+    .contact-info-link:hover .contact-info-link-icon img {
+        filter: brightness(1) invert(1);
+    }
+
 .contact-info-link-text {
     display: flex;
     flex-direction: column;
