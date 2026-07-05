@@ -220,7 +220,6 @@ html, body {
     color: var(--text-primary);
     margin-bottom: 24px;
     opacity: 0;
-    overflow-wrap: anywhere;
     animation: fadeIn 0.7s ease 0.4s forwards;
 }
 
@@ -898,7 +897,7 @@ html, body {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    max-width: 560px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
