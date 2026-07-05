@@ -382,6 +382,11 @@ html, body {
         justify-content: center;
     }
 
+    .hero-section > div:first-child {
+        width: 100%;
+        max-width: 100%;
+    }
+
     .hero-eyebrow {
         font-size: 0.65rem;
         letter-spacing: 0.12em;
@@ -393,7 +398,6 @@ html, body {
     .hero-name {
         font-size: clamp(2rem, 10.5vw, 2.6rem);
         line-height: 1.05;
-        word-break: break-word;
         overflow-wrap: break-word;
         margin-bottom: 18px;
     }
