@@ -1,21 +1,20 @@
 // ── Data registry: single source of truth for badge blurbs and cert details ──
-// Credential fields below are placeholders — replace with real values when available.
 const CERT_DATA = {
     'network-plus': {
         name: 'CompTIA Network+',
         image: '/shared/ComptiaNetwork.png',
         issuer: 'CompTIA',
-        issueDate: 'TODO-FILL-IN',
-        credentialId: 'TODO-FILL-IN',
-        verifyUrl: '#'
+        issueDate: 'Apr 2026',
+        credentialId: '25fc901a796244fdb6b1ca2b65ed5b4b',
+        verifyUrl: 'https://cp.certmetrics.com/CompTIA/en/public/verify/credential/25fc901a796244fdb6b1ca2b65ed5b4b'
     },
     'az-900': {
         name: 'Azure Fundamentals AZ-900',
         image: '/shared/AZ-900.png',
         issuer: 'Microsoft',
-        issueDate: 'TODO-FILL-IN',
-        credentialId: 'TODO-FILL-IN',
-        verifyUrl: '#'
+        issueDate: 'Jan 2026',
+        credentialId: '180C60002E067487',
+        verifyUrl: 'https://learn.microsoft.com/api/credentials/share/en-us/NathanCarpenter-7803/180C60002E067487?sharingId=64AB9FA729238809'
     }
 };
 
