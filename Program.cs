@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMemoryCache();
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddHttpClient("OpenRouter");
 builder.Services.AddSingleton<IOpenRouterService, OpenRouterService>();
 builder.Services.AddHttpClient("GitHub");

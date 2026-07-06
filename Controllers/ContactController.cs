@@ -21,7 +21,7 @@ namespace NathanPortfolio.Controllers
             {
                 await _emailSender.SendEmailAsync(contactUserMessage.FirstName, contactUserMessage.LastName, contactUserMessage.Email, contactUserMessage.Message, _configuration);
 
-                ViewBag.ResponseMessage = "Email Sent Sucessfully";
+                ViewBag.ResponseMessage = "Email Sent Successfully";
             }
 
             catch
