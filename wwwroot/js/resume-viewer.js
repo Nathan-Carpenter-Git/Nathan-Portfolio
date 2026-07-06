@@ -1,13 +1,15 @@
+// Dynamically imported by home.js once the résumé section nears the
+// viewport, so the DOM is already ready by the time this module runs -
+// no need to wait on DOMContentLoaded here.
 import * as pdfjsLib from '/lib/pdfjs/pdf.min.mjs';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/lib/pdfjs/pdf.worker.min.mjs';
 
-document.addEventListener('DOMContentLoaded', () => {
-    const wrapper = document.getElementById('resumeCanvasWrapper');
-    const canvas = document.getElementById('resumeCanvas');
-    const loadingEl = document.getElementById('resumeLoading');
-    if (!wrapper || !canvas) return;
+const wrapper = document.getElementById('resumeCanvasWrapper');
+const canvas = document.getElementById('resumeCanvas');
+const loadingEl = document.getElementById('resumeLoading');
 
+if (wrapper && canvas) {
     let pdfDoc = null;
     let currentRenderTask = null;
 
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderPage();
         })
         .catch(() => {
-            loadingEl.textContent = 'Preview unavailable — please use the download button above.';
+            loadingEl.textContent = 'Preview unavailable - please use the download button above.';
         });
 
     let resizeTimer;
@@ -55,4 +57,4 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pdfDoc) renderPage();
         }, 200);
     });
-});
+}

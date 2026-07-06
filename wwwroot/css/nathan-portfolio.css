@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
-
 :root {
     --bg-deep: #040c18;
     --bg-card: #071525;
@@ -12,6 +10,7 @@
     --border-subtle: rgba(0, 229, 255, 0.15);
     --glow-cyan: 0 0 20px rgba(0, 229, 255, 0.4);
     --glow-sm: 0 0 8px rgba(0, 229, 255, 0.25);
+    color-scheme: dark;
 }
 
 /* ── Global Reset ── */
@@ -25,6 +24,45 @@ html, body {
     color: var(--text-primary) !important;
     font-family: 'IBM Plex Mono', monospace !important;
     overflow-x: hidden;
+}
+
+/* Match native selection highlight/scrollbars/form controls to the site's
+   cyan-on-dark theme instead of the browser's default light-mode styling. */
+::selection {
+    background: rgba(0, 229, 255, 0.3);
+    color: #ffffff;
+}
+
+/* ── Respect OS-level "reduce motion" preference ── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ── Skip-to-content link (keyboard/screen-reader users only, until focused) ── */
+.skip-link {
+    position: absolute;
+    top: -48px;
+    left: 12px;
+    z-index: 1100;
+    padding: 10px 18px;
+    background: var(--bg-card);
+    color: var(--accent-cyan);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 12px;
+    box-shadow: var(--glow-cyan);
 }
 
     /* ── Grid Background ── */
@@ -299,6 +337,7 @@ html, body {
 .hero-terminal {
     flex: 0 0 340px;
     width: 340px;
+    margin-left: auto;
     background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: 10px;
@@ -434,7 +473,7 @@ html, body {
     }
 }
 
-/* Hero — Phone */
+/* Hero - Phone */
 @media (max-width: 768px) {
     .hero-section {
         min-height: 100svh;
@@ -563,6 +602,7 @@ html, body {
 
 .about-photo {
     width: 100%;
+    height: auto;
     border-radius: 8px;
     display: block;
     filter: grayscale(20%) contrast(1.05);
@@ -616,7 +656,7 @@ html, body {
     text-transform: uppercase;
 }
 
-/* About — Phone */
+/* About - Phone */
 @media (max-width: 768px) {
     .about-grid {
         grid-template-columns: 1fr;
@@ -738,7 +778,7 @@ html, body {
             transform: none;
         }
 
-/* Certificates — Phone */
+/* Certificates - Phone */
 @media (max-width: 768px) {
     .certs-track {
         gap: 16px;
@@ -1036,7 +1076,7 @@ html, body {
     padding: 0 20px;
 }
 
-/* Resume — Phone */
+/* Resume - Phone */
 @media (max-width: 768px) {
     .resume-toolbar-label {
         font-size: 0.62rem;
@@ -1283,7 +1323,7 @@ body {
         color: #7a9bb5;
     }
 
-    /* Contact CTA button — slightly more prominent */
+    /* Contact CTA button - slightly more prominent */
     .nc-nav-links .nav-cta {
         color: #7a9bb5;
         border-color: rgba(0, 229, 255, 0.2);
@@ -1842,7 +1882,7 @@ body {
     }
 
 /* ══════════════════════════════
-   TALK TO ME — CHAT PAGE
+   TALK TO ME - CHAT PAGE
 ══════════════════════════════ */
 
 /* Full-height layout */

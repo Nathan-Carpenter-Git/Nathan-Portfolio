@@ -8,8 +8,8 @@ namespace NathanPortfolio.Controllers
     public class TalkToMeController : Controller
     {
         private const string DefaultSystemContext =
-            "You are a helpful, concise assistant on Nathan Carpenter's personal portfolio website. " +
-            "Be friendly and professional.";
+            "This chat widget is embedded on the portfolio site alongside my resume, projects, and " +
+            "contact page - visitors can see those too, so it's fine to reference them.";
 
         private readonly IOpenRouterService _openRouter;
         private readonly ILogger<TalkToMeController> _logger;
@@ -19,7 +19,7 @@ namespace NathanPortfolio.Controllers
             ILogger<TalkToMeController> logger)
         {
             _openRouter = openRouter;
-            _logger     = logger;
+            _logger = logger;
         }
 
         // ── GET /TalkToMe ──────────────────────────────────────────────────────
@@ -49,7 +49,7 @@ namespace NathanPortfolio.Controllers
 
             history.Add(new ChatMessage
             {
-                Role    = "user",
+                Role = "user",
                 Content = request.Message.Trim()
             });
 

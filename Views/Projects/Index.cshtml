@@ -2,9 +2,13 @@
 
 @{
     ViewData["Title"] = "Projects";
+    ViewData["Description"] = "A look at Nathan Carpenter's software and infrastructure projects, including pinned GitHub repositories and games on itch.io.";
 }
 
-<link rel="stylesheet" href="~/css/nathan-portfolio.css" asp-append-version="true" />
+@section Head {
+    <link rel="preconnect" href="https://img.itch.zone" crossorigin />
+    <link rel="dns-prefetch" href="https://img.itch.zone" />
+}
 
 <section class="nc-section reveal projects-hero">
     <div class="section-label">05</div>
@@ -73,7 +77,7 @@
                     @if (!string.IsNullOrEmpty(game.CoverUrl))
                     {
                         <div class="game-card-cover">
-                            <img src="@game.CoverUrl" alt="@game.Title" loading="lazy" />
+                            <img src="@game.CoverUrl" alt="@game.Title" loading="lazy" decoding="async" />
                         </div>
                     }
                     <div class="game-card-body">
@@ -97,7 +101,7 @@
     }
 </section>
 
-<script>
+<script nonce="@Context.Items["csp-nonce"]">
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

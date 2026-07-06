@@ -1,20 +1,44 @@
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Nathan Carpenter";
+    ViewData["Description"] = "Nathan Carpenter is an IT & network professional with hands-on experience across enterprise networking, Azure cloud infrastructure, and systems administration. View his resume, certifications, and projects.";
 }
 
-<link rel="stylesheet" href="~/css/nathan-portfolio.css" />
-
+<script type="application/ld+json" nonce="@Context.Items["csp-nonce"]">
+{
+    "@@context": "https://schema.org",
+    "@@type": "Person",
+    "name": "Nathan Carpenter",
+    "url": "https://nathancarpenter.dev",
+    "image": "https://nathancarpenter.dev/shared/NathanFrame.jpg",
+    "jobTitle": "IT & Network Professional",
+    "description": "IT & network professional with hands-on experience across enterprise networking, Azure cloud infrastructure, and systems administration.",
+    "sameAs": [
+        "https://www.linkedin.com/in/nathan-b-carpenter/",
+        "https://github.com/Nathan-Carpenter-Git",
+        "https://dusty-studios.itch.io"
+    ]
+}
+</script>
 
 <!-- ── Floating Social Sidebar ── -->
 <div class="social-sidebar">
-    <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" class="social-icon-link" title="GitHub">
-        <img src="/shared/icons/icon_github.png" alt="GitHub" />
+    <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" rel="noopener" class="social-icon-link" title="GitHub">
+        <picture>
+            <source srcset="/shared/icons/icon_github.webp" type="image/webp" />
+            <img src="/shared/icons/icon_github.png" alt="GitHub" width="20" height="20" asp-append-version="true" />
+        </picture>
     </a>
-    <a href="https://dusty-studios.itch.io" target="_blank" class="social-icon-link" title="itch.io">
-        <img src="/shared/icons/icon_itchio.png" alt="itch.io" />
+    <a href="https://dusty-studios.itch.io" target="_blank" rel="noopener" class="social-icon-link" title="itch.io">
+        <picture>
+            <source srcset="/shared/icons/icon_itchio.webp" type="image/webp" />
+            <img src="/shared/icons/icon_itchio.png" alt="itch.io" width="20" height="20" asp-append-version="true" />
+        </picture>
     </a>
-    <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" class="social-icon-link" title="LinkedIn">
-        <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" />
+    <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" rel="noopener" class="social-icon-link" title="LinkedIn">
+        <picture>
+            <source srcset="/shared/icons/icon_linkedin.webp" type="image/webp" />
+            <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" width="20" height="20" asp-append-version="true" />
+        </picture>
     </a>
 </div>
 
@@ -28,7 +52,7 @@
             Nathan <span class="accent">Carpenter</span>
         </h1>
         <p class="hero-tagline">
-            Building secure, scalable infrastructure — from multi-site banking networks to Azure cloud deployments.
+            Building secure, scalable infrastructure - from multi-site banking networks to Azure cloud deployments.
         </p>
         <div class="hero-badges">
             <span class="badge-tech" data-badge="network-plus" tabindex="0" role="button">Network+</span>
@@ -39,16 +63,25 @@
             <span class="badge-tech" data-badge="virtualization" tabindex="0" role="button">Virtualization</span>
         </div>
 
-        <!-- Social icons — visible on mobile only -->
+        <!-- Social icons - visible on mobile only -->
         <div class="mobile-social-bar">
-            <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" class="social-icon-link" title="GitHub">
-                <img src="/shared/icons/icon_github.png" alt="GitHub" />
+            <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" rel="noopener" class="social-icon-link" title="GitHub">
+                <picture>
+                    <source srcset="/shared/icons/icon_github.webp" type="image/webp" />
+                    <img src="/shared/icons/icon_github.png" alt="GitHub" width="20" height="20" asp-append-version="true" />
+                </picture>
             </a>
-            <a href="https://dusty-studios.itch.io" target="_blank" class="social-icon-link" title="itch.io">
-                <img src="/shared/icons/icon_itchio.png" alt="itch.io" />
+            <a href="https://dusty-studios.itch.io" target="_blank" rel="noopener" class="social-icon-link" title="itch.io">
+                <picture>
+                    <source srcset="/shared/icons/icon_itchio.webp" type="image/webp" />
+                    <img src="/shared/icons/icon_itchio.png" alt="itch.io" width="20" height="20" asp-append-version="true" />
+                </picture>
             </a>
-            <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" class="social-icon-link" title="LinkedIn">
-                <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" />
+            <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" rel="noopener" class="social-icon-link" title="LinkedIn">
+                <picture>
+                    <source srcset="/shared/icons/icon_linkedin.webp" type="image/webp" />
+                    <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" width="20" height="20" asp-append-version="true" />
+                </picture>
             </a>
         </div>
     </div>
@@ -87,7 +120,10 @@
 
     <div class="about-grid">
         <div class="about-photo-wrapper reveal reveal-delay-1">
-            <img src="/shared/NathanFrame.jpg" class="about-photo" alt="Nathan Carpenter" />
+            <picture>
+                <source srcset="/shared/NathanFrame.webp" type="image/webp" />
+                <img src="/shared/NathanFrame.jpg" class="about-photo" alt="Nathan Carpenter" width="506" height="675" loading="lazy" decoding="async" asp-append-version="true" />
+            </picture>
         </div>
 
         <div class="about-paragraphs reveal reveal-delay-2">
@@ -119,23 +155,38 @@
 
     <div class="certs-track">
         <div class="cert-card reveal reveal-delay-1" data-cert="network-plus" tabindex="0" role="button">
-            <img src="/shared/ComptiaNetwork.png" alt="Network+ Certificate" />
+            <picture>
+                <source srcset="/shared/ComptiaNetwork.webp" type="image/webp" />
+                <img src="/shared/ComptiaNetwork.png" alt="Network+ Certificate" width="601" height="601" loading="lazy" decoding="async" asp-append-version="true" />
+            </picture>
             <p class="cert-name">CompTIA Network+</p>
         </div>
         <div class="cert-card reveal reveal-delay-2" data-cert="az-900" tabindex="0" role="button">
-            <img src="/shared/AZ-900.png" alt="AZ-900 Certificate" />
+            <picture>
+                <source srcset="/shared/AZ-900.webp" type="image/webp" />
+                <img src="/shared/AZ-900.png" alt="AZ-900 Certificate" width="600" height="600" loading="lazy" decoding="async" asp-append-version="true" />
+            </picture>
             <p class="cert-name">Azure Fundamentals AZ-900</p>
         </div>
         <div class="cert-card cert-card-static reveal reveal-delay-3">
-            <img src="/shared/JCCITCertificate.png" alt="AIT Certificate" />
+            <picture>
+                <source srcset="/shared/JCCITCertificate.webp" type="image/webp" />
+                <img src="/shared/JCCITCertificate.png" alt="AIT Certificate" width="300" height="350" loading="lazy" decoding="async" asp-append-version="true" />
+            </picture>
             <p class="cert-name">AIT Certificate</p>
         </div>
         <div class="cert-card cert-card-static reveal reveal-delay-4">
-            <img src="/shared/TestOutNetworkPro.png" alt="Network Pro Certificate" />
+            <picture>
+                <source srcset="/shared/TestOutNetworkPro.webp" type="image/webp" />
+                <img src="/shared/TestOutNetworkPro.png" alt="Network Pro Certificate" width="224" height="231" loading="lazy" decoding="async" asp-append-version="true" />
+            </picture>
             <p class="cert-name">TestOut Network Pro</p>
         </div>
         <div class="cert-card cert-card-static reveal reveal-delay-5">
-            <img src="/shared/TestOutPCPro.png" alt="PC Pro Certificate" />
+            <picture>
+                <source srcset="/shared/TestOutPCPro.webp" type="image/webp" />
+                <img src="/shared/TestOutPCPro.png" alt="PC Pro Certificate" width="224" height="226" loading="lazy" decoding="async" asp-append-version="true" />
+            </picture>
             <p class="cert-name">TestOut PC Pro</p>
         </div>
     </div>
@@ -187,7 +238,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="@Context.Items["csp-nonce"]">
     // Intersection Observer for scroll-triggered reveals
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -199,8 +250,22 @@
     }, { threshold: 0.1 });
 
     revealEls.forEach(el => observer.observe(el));
+
+    // The résumé preview pulls in pdf.js plus its worker (~1.4MB combined)
+    // on top of the PDF itself - defer that download until the résumé
+    // section is actually about to scroll into view instead of paying for
+    // it on every home page visit.
+    const resumeWrapper = document.getElementById('resumeCanvasWrapper');
+    if (resumeWrapper) {
+        const resumeObserver = new IntersectionObserver((entries, obs) => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                import('/js/resume-viewer.js');
+                obs.disconnect();
+            }
+        }, { rootMargin: '600px 0px' });
+        resumeObserver.observe(resumeWrapper);
+    }
 </script>
 
 <script src="~/js/home.js" asp-append-version="true"></script>
-<script type="module" src="~/js/resume-viewer.js" asp-append-version="true"></script>
 <script src="~/js/hero-terminal.js" asp-append-version="true"></script>

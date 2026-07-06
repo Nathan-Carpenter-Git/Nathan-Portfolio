@@ -41,6 +41,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    poll();
-    setInterval(poll, POLL_INTERVAL_MS);
+    let intervalId = null;
+
+    function startPolling() {
+        if (intervalId !== null) return;
+        poll();
+        intervalId = setInterval(poll, POLL_INTERVAL_MS);
+    }
+
+    function stopPolling() {
+        if (intervalId === null) return;
+        clearInterval(intervalId);
+        intervalId = null;
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopPolling();
+        } else {
+            startPolling();
+        }
+    });
+
+    if (!document.hidden) startPolling();
 });

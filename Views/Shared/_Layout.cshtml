@@ -3,15 +3,42 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#040c18" />
+    <meta name="color-scheme" content="dark" />
     <title>@ViewData["Title"] - Nathan's Portfolio</title>
+    @{
+        var pageDescription = ViewData["Description"] as string
+            ?? "Nathan Carpenter's portfolio - IT & network professional specializing in secure infrastructure, Azure cloud deployments, and systems administration.";
+        var pageTitle = $"{ViewData["Title"]} - Nathan's Portfolio";
+        var siteUrl = "https://nathancarpenter.dev";
+        var canonicalUrl = siteUrl + Context.Request.Path;
+        var ogImageUrl = siteUrl + "/shared/NathanFrame.jpg";
+    }
+    <meta name="description" content="@pageDescription" />
+    <link rel="canonical" href="@canonicalUrl" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta property="og:title" content="@pageTitle" />
+    <meta property="og:description" content="@pageDescription" />
+    <meta property="og:image" content="@ogImageUrl" />
+    <meta property="og:image:width" content="506" />
+    <meta property="og:image:height" content="675" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@pageTitle" />
+    <meta name="twitter:description" content="@pageDescription" />
+    <meta name="twitter:image" content="@ogImageUrl" />
     <link rel="icon" type="image/x-icon" href="/n-logo.ico" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" href="~/lib/fonts/syne-v24-latin.woff2" as="font" type="font/woff2" crossorigin asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/fonts.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/NathanPortfolio.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/nathan-portfolio.css" asp-append-version="true" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    @await RenderSectionAsync("Head", required: false)
 </head>
 <body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- ══════════════════════════════
          NAVBAR
@@ -49,7 +76,7 @@
     <!-- ══════════════════════════════
          PAGE CONTENT
     ══════════════════════════════ -->
-    <main role="main" class="pb-3">
+    <main role="main" id="main-content" tabindex="-1" class="pb-3">
         @RenderBody()
     </main>
 
@@ -67,7 +94,7 @@
 
         <div class="footer-bottom">
             <p class="footer-copy">
-                &copy; 2024 &mdash; <span>Nathan's Portfolio</span>
+                &copy; @DateTime.UtcNow.Year - <span>Nathan's Portfolio</span>
             </p>
             <ul class="footer-links">
                 <li><a href="/">Home</a></li>
@@ -81,13 +108,11 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/status-widget.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-    <script>
+    <script nonce="@Context.Items["csp-nonce"]">
         // Navbar darkens on scroll
         const nav = document.getElementById('ncNav');
         window.addEventListener('scroll', () => {
@@ -115,7 +140,10 @@
         // Highlight the active nav link
         const path = window.location.pathname;
         document.querySelectorAll('.nc-nav-links a, .nc-mobile-menu a').forEach(a => {
-            if (a.getAttribute('href') === path) a.classList.add('active');
+            if (a.getAttribute('href') === path) {
+                a.classList.add('active');
+                a.setAttribute('aria-current', 'page');
+            }
         });
     </script>
 </body>

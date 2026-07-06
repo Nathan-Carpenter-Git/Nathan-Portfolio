@@ -4,8 +4,6 @@
 - HTML
 - CSS
 - JavaScript
-- jQuery
-- Boostrap
 - pdf.js (vendored, for the résumé preview)
 
 ## Back-end
@@ -17,4 +15,4 @@
 - Azure App Service
 
 # URL
-- https://nathansporfolio.azurewebsites.net/
+- https://nathancarpenter.dev/

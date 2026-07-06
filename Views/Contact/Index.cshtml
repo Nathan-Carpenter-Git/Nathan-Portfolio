@@ -2,10 +2,9 @@
 
 @{
     ViewData["Title"] = "Contact";
+    ViewData["Description"] = "Get in touch with Nathan Carpenter about IT, networking, or cloud infrastructure opportunities.";
     string responseMessage = Context.Request.Query["ResponseMessage"].ToString();
 }
-
-<link rel="stylesheet" href="~/css/nathan-portfolio.css" asp-append-version="true" />
 
 <section class="nc-section contact-section">
     <div class="section-label">04</div>
@@ -17,13 +16,16 @@
         <div>
             <p class="contact-info-label">
                 Have a question, opportunity, or just want to say hello?<br />
-                Fill out the form or check my out other projects directly through the links below
+                Fill out the form, or connect with me directly through the links below
             </p>
 
             <div class="contact-info-links">
-                <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" class="contact-info-link">
+                <a href="https://www.linkedin.com/in/nathan-b-carpenter/" target="_blank" rel="noopener" class="contact-info-link">
                     <div class="contact-info-link-icon">
-                        <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" />
+                        <picture>
+                            <source srcset="/shared/icons/icon_linkedin.webp" type="image/webp" />
+                            <img src="/shared/icons/icon_linkedin.png" alt="LinkedIn" width="18" height="18" asp-append-version="true" />
+                        </picture>
                     </div>
                     <div class="contact-info-link-text">
                         <span class="contact-info-link-title">LinkedIn</span>
@@ -31,9 +33,12 @@
                     </div>
                 </a>
 
-                <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" class="contact-info-link">
+                <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" rel="noopener" class="contact-info-link">
                     <div class="contact-info-link-icon">
-                        <img src="/shared/icons/icon_github.png" alt="GitHub" />
+                        <picture>
+                            <source srcset="/shared/icons/icon_github.webp" type="image/webp" />
+                            <img src="/shared/icons/icon_github.png" alt="GitHub" width="18" height="18" asp-append-version="true" />
+                        </picture>
                     </div>
                     <div class="contact-info-link-text">
                         <span class="contact-info-link-title">GitHub</span>
@@ -41,9 +46,12 @@
                     </div>
                 </a>
 
-                <a href="https://dusty-studios.itch.io" target="_blank" class="contact-info-link">
+                <a href="https://dusty-studios.itch.io" target="_blank" rel="noopener" class="contact-info-link">
                     <div class="contact-info-link-icon">
-                        <img src="/shared/icons/icon_itchio.png" alt="itch.io" />
+                        <picture>
+                            <source srcset="/shared/icons/icon_itchio.webp" type="image/webp" />
+                            <img src="/shared/icons/icon_itchio.png" alt="itch.io" width="18" height="18" asp-append-version="true" />
+                        </picture>
                     </div>
                     <div class="contact-info-link-text">
                         <span class="contact-info-link-title">itch.io</span>
@@ -69,13 +77,13 @@
                     if (responseMessage == "Email Sent Unsuccessfully")
                     {
                         <div class="nc-response nc-response-error">
-                            ✕ &nbsp;@responseMessage — please try again.
+                            ✕ &nbsp;@responseMessage - please try again.
                         </div>
                     }
-                    else if (responseMessage == "Email Sent Sucessfully")
+                    else if (responseMessage == "Email Sent Successfully")
                     {
                         <div class="nc-response nc-response-success">
-                            ✓ &nbsp;@responseMessage — I'll be in touch soon!
+                            ✓ &nbsp;@responseMessage - I'll be in touch soon!
                         </div>
                     }
                 }
@@ -117,7 +125,7 @@
     </div>
 </section>
 
-<script>
+<script nonce="@Context.Items["csp-nonce"]">
     // Trigger reveal animation on the form card
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
