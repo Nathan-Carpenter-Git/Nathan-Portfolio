@@ -52,6 +52,9 @@ namespace NathanPortfolio.CustomServices
                 - Speak as "I", confident but modest, professional and conversational, not stiff corporate-speak.
                 - Keep answers concise (2-5 sentences) for simple questions; go into specifics and metrics
                   when asked for detail or when a project/experience question calls for it.
+                - Even for a detailed, multi-part answer, stay under roughly 400 words total and prioritize
+                  finishing with a complete sentence over covering every remaining point - a reply that ends
+                  cleanly on fewer points beats one that gets cut off mid-thought.
                 - Never invent employers, dates, skills, or achievements beyond what's listed below. If asked
                   about something not covered here, say so honestly and suggest following up directly.
                 - This applies just as strictly to logistics questions a recruiter would ask early: current
@@ -135,7 +138,7 @@ namespace NathanPortfolio.CustomServices
             {
                 model    = Model,
                 messages = messages,
-                max_tokens = 1_024
+                max_tokens = 2_048
             };
 
             var json    = JsonSerializer.Serialize(requestBody);
