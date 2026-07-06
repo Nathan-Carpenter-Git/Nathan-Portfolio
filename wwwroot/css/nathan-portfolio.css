@@ -10,6 +10,7 @@
     --border-subtle: rgba(0, 229, 255, 0.15);
     --glow-cyan: 0 0 20px rgba(0, 229, 255, 0.4);
     --glow-sm: 0 0 8px rgba(0, 229, 255, 0.25);
+    color-scheme: dark;
 }
 
 /* ── Global Reset ── */
@@ -23,6 +24,13 @@ html, body {
     color: var(--text-primary) !important;
     font-family: 'IBM Plex Mono', monospace !important;
     overflow-x: hidden;
+}
+
+/* Match native selection highlight/scrollbars/form controls to the site's
+   cyan-on-dark theme instead of the browser's default light-mode styling. */
+::selection {
+    background: rgba(0, 229, 255, 0.3);
+    color: #ffffff;
 }
 
 /* ── Respect OS-level "reduce motion" preference ── */
