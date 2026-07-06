@@ -299,6 +299,7 @@ html, body {
 .hero-terminal {
     flex: 0 0 340px;
     width: 340px;
+    margin-left: auto;
     background: var(--bg-card);
     border: 1px solid var(--border-subtle);
     border-radius: 10px;
