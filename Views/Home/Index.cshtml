@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <!-- Decorative terminal window -->
+    <!-- Interactive terminal -->
     <div class="hero-terminal">
         <div class="terminal-bar">
             <span class="t-dot"></span>
@@ -61,17 +61,15 @@
             <span class="t-dot"></span>
             <span class="terminal-title">nathan@portfolio ~ </span>
         </div>
-        <div class="terminal-body">
-            <div><span class="t-prompt">▶</span> <span class="t-cmd">whoami</span></div>
-            <div class="t-out">nathan-carpenter</div>
-            <div style="margin-top:8px"><span class="t-prompt">▶</span> <span class="t-cmd">cat skills.txt</span></div>
-            <div class="t-out">Networking</div>
-            <div class="t-out">Cloud Infrastructure (Azure)</div>
-            <div class="t-out">SQL Databases</div>
-            <div class="t-out">System Administration</div>
-            <div class="t-out">Powershell</div>
-            <div style="margin-top:8px"><span class="t-prompt">▶</span> <span class="t-cmd">status</span></div>
-            <div class="t-out">Open to opportunities <span class="t-cursor"></span></div>
+        <div class="terminal-body" id="terminalBody">
+            <div id="terminalOutput">
+                <div><span class="t-prompt">▶</span> <span class="t-cmd">whoami</span></div>
+                <div class="t-out">nathan-carpenter</div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="t-prompt">▶</span>
+                <input type="text" id="terminalInput" class="terminal-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="type 'help'" aria-label="Interactive terminal - type a command" />
+            </div>
         </div>
     </div>
 
@@ -83,7 +81,7 @@
 <!-- ══════════════════════════════
      ABOUT ME
 ══════════════════════════════ -->
-<section class="nc-section reveal">
+<section class="nc-section reveal" id="about">
     <div class="section-label">01</div>
     <h2 class="section-heading">About <span>Me</span></h2>
 
@@ -115,7 +113,7 @@
 <!-- ══════════════════════════════
      CERTIFICATES
 ══════════════════════════════ -->
-<section class="nc-section reveal">
+<section class="nc-section reveal" id="certifications">
     <div class="section-label">02</div>
     <h2 class="section-heading">My <span>Certifications</span></h2>
 
@@ -148,7 +146,7 @@
 <!-- ══════════════════════════════
      RESUME
 ══════════════════════════════ -->
-<section class="nc-section reveal">
+<section class="nc-section reveal" id="resume">
     <div class="section-label">03</div>
     <h2 class="section-heading">My <span>Résumé</span></h2>
 
@@ -205,3 +203,4 @@
 
 <script src="~/js/home.js" asp-append-version="true"></script>
 <script type="module" src="~/js/resume-viewer.js" asp-append-version="true"></script>
+<script src="~/js/hero-terminal.js" asp-append-version="true"></script>
