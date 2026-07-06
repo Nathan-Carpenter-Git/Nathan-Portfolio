@@ -4,6 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nathan's Portfolio</title>
+    @{
+        var pageDescription = ViewData["Description"] as string
+            ?? "Nathan Carpenter's portfolio - IT & network professional specializing in secure infrastructure, Azure cloud deployments, and systems administration.";
+    }
+    <meta name="description" content="@pageDescription" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@ViewData["Title"] - Nathan's Portfolio" />
+    <meta property="og:description" content="@pageDescription" />
     <link rel="icon" type="image/x-icon" href="/n-logo.ico" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
