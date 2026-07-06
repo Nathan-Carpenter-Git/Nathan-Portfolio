@@ -152,7 +152,7 @@ namespace NathanPortfolio.CustomServices
                 new AuthenticationHeaderValue("Bearer", apiKey);
 
 
-            request.Headers.TryAddWithoutValidation("HTTP-Referer", "https://nathancarpenter.dev");
+            request.Headers.TryAddWithoutValidation("HTTP-Referer", "https://nathansporfolio.azurewebsites.net");
             request.Headers.TryAddWithoutValidation("X-Title", "Nathan's Portfolio - TalkToMe");
 
             var response = await _http.SendAsync(request);
