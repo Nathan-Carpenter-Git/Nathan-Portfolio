@@ -37,6 +37,8 @@
 </head>
 <body>
 
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- ══════════════════════════════
          NAVBAR
     ══════════════════════════════ -->
@@ -73,7 +75,7 @@
     <!-- ══════════════════════════════
          PAGE CONTENT
     ══════════════════════════════ -->
-    <main role="main" class="pb-3">
+    <main role="main" id="main-content" tabindex="-1" class="pb-3">
         @RenderBody()
     </main>
 
@@ -137,7 +139,10 @@
         // Highlight the active nav link
         const path = window.location.pathname;
         document.querySelectorAll('.nc-nav-links a, .nc-mobile-menu a').forEach(a => {
-            if (a.getAttribute('href') === path) a.classList.add('active');
+            if (a.getAttribute('href') === path) {
+                a.classList.add('active');
+                a.setAttribute('aria-current', 'page');
+            }
         });
     </script>
 </body>
