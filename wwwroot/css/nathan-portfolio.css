@@ -1410,11 +1410,9 @@ body {
     position: relative;
     z-index: 1;
     border-top: 1px solid rgba(0, 229, 255, 0.1);
-    padding: 32px 60px;
+    padding: 20px 60px 32px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 16px;
     background: rgba(4, 12, 24, 0.6);
 }
@@ -1428,6 +1426,73 @@ body {
         height: 1px;
         background: linear-gradient(to right, transparent, rgba(0,229,255,0.3), transparent);
     }
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.footer-status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: #7a9bb5;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.08);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    flex-shrink: 0;
+}
+
+    .status-dot.status-up {
+        background: var(--accent-green);
+        box-shadow: 0 0 6px var(--accent-green);
+        animation: statusPulse 2s ease infinite;
+    }
+
+    .status-dot.status-down {
+        background: #ff5f57;
+        box-shadow: 0 0 6px #ff5f57;
+    }
+
+.status-label {
+    color: var(--text-primary);
+    letter-spacing: 0.15em;
+}
+
+.status-item strong {
+    color: var(--accent-cyan);
+    font-weight: 500;
+}
+
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-status {
+        justify-content: center;
+        text-align: center;
+    }
+}
 
 .footer-copy {
     font-family: 'IBM Plex Mono', monospace;
@@ -1479,9 +1544,13 @@ body {
 @media (max-width: 768px) {
     .nc-footer {
         padding: 24px 20px;
-        flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 12px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
         gap: 12px;
     }
 }

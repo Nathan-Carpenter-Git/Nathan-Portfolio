@@ -23,7 +23,7 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Publish
-        run: dotnet publish NathanPortfolio.csproj -c Release -o ${{ github.workspace }}/publish
+        run: dotnet publish NathanPortfolio.csproj -c Release -o ${{ github.workspace }}/publish -p:SourceRevisionId=${{ github.sha }}
 
       - name: Log in to Azure
         uses: azure/login@v2

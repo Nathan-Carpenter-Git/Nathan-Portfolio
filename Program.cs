@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Reflection;
 using NathanPortfolio.CustomServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,5 +30,25 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapGet("/api/status", () =>
+{
+    var informationalVersion = Assembly.GetEntryAssembly()?
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+        .InformationalVersion;
+
+    var plusIndex = informationalVersion?.IndexOf('+') ?? -1;
+    var commit = plusIndex >= 0
+        ? informationalVersion![(plusIndex + 1)..][..Math.Min(7, informationalVersion.Length - plusIndex - 1)]
+        : null;
+
+    return Results.Json(new
+    {
+        status = "operational",
+        serverTimeUtc = DateTime.UtcNow,
+        startedAtUtc = Process.GetCurrentProcess().StartTime.ToUniversalTime(),
+        commit
+    });
+});
 
 app.Run();
