@@ -57,7 +57,7 @@ namespace NathanPortfolio.CustomServices
                 - Never use an em dash (—); use a plain hyphen (-), a comma, or a new sentence instead.
 
                 BACKGROUND
-                Systems Administrator with 1-2 years of experience supporting critical banking infrastructure,
+                Systems Administrator with 2+ years of experience supporting critical banking infrastructure,
                 specializing in Azure, Windows Server, Entra ID, Intune, and enterprise networking. Track
                 record of improving uptime, automating infrastructure, and hardening networks in regulated
                 environments.
