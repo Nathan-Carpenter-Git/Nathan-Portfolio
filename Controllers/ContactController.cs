@@ -4,10 +4,9 @@ using NathanPortfolio.Models;
 
 namespace NathanPortfolio.Controllers
 {
-    public class ContactController(IEmailSender emailSender, IConfiguration configuration) : Controller
+    public class ContactController(IEmailSender emailSender) : Controller
     {
         private readonly IEmailSender _emailSender = emailSender;
-        private readonly IConfiguration _configuration = configuration;
 
         public IActionResult Index()
         {
@@ -19,7 +18,7 @@ namespace NathanPortfolio.Controllers
         {
             try
             {
-                await _emailSender.SendEmailAsync(contactUserMessage.FirstName, contactUserMessage.LastName, contactUserMessage.Email, contactUserMessage.Message, _configuration);
+                await _emailSender.SendEmailAsync(contactUserMessage.FirstName, contactUserMessage.LastName, contactUserMessage.Email, contactUserMessage.Message);
 
                 ViewBag.ResponseMessage = "Email Sent Successfully";
             }

@@ -7,11 +7,15 @@ namespace NathanPortfolio.CustomServices
 {
     public class EmailSender : IEmailSender
     {
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(15);
+
         private readonly SecretClient _secretClient;
+        private readonly SemaphoreSlim _cacheLock = new(1, 1);
 
         private string? _cachedSendFromEmail;
         private string? _cachedSendToEmail;
         private string? _cachedEmailPass;
+        private DateTime _cacheExpiresAtUtc = DateTime.MinValue;
 
         public EmailSender(IConfiguration configuration)
         {
@@ -20,7 +24,7 @@ namespace NathanPortfolio.CustomServices
             _secretClient = new SecretClient(keyVaultUri, new DefaultAzureCredential());
         }
 
-        public async Task SendEmailAsync(string firstName, string lastName, string fromEmail, string body, IConfiguration configuration)
+        public async Task SendEmailAsync(string firstName, string lastName, string fromEmail, string body)
         {
             var (sendFromEmail, sendToEmail, emailPass) = await GetCredentialsAsync();
 
@@ -36,24 +40,37 @@ namespace NathanPortfolio.CustomServices
         }
 
         /// <summary>
-        /// Returns the cached SMTP credentials, fetching them from Key Vault (in parallel) on first call.
+        /// Returns the cached SMTP credentials, refreshing them from Key Vault (in parallel) when the
+        /// cache is empty or has expired, so rotated secrets are picked up without requiring a restart.
         /// </summary>
         private async Task<(string SendFromEmail, string SendToEmail, string EmailPass)> GetCredentialsAsync()
         {
-            if (_cachedSendFromEmail is not null && _cachedSendToEmail is not null && _cachedEmailPass is not null)
+            if (_cachedSendFromEmail is not null && _cachedSendToEmail is not null && _cachedEmailPass is not null && DateTime.UtcNow < _cacheExpiresAtUtc)
                 return (_cachedSendFromEmail, _cachedSendToEmail, _cachedEmailPass);
 
-            var sendFromEmailTask = _secretClient.GetSecretAsync("Send--From--Email");
-            var sendToEmailTask = _secretClient.GetSecretAsync("Send--Email");
-            var emailPassTask = _secretClient.GetSecretAsync("Email--Pass");
+            await _cacheLock.WaitAsync();
+            try
+            {
+                if (_cachedSendFromEmail is not null && _cachedSendToEmail is not null && _cachedEmailPass is not null && DateTime.UtcNow < _cacheExpiresAtUtc)
+                    return (_cachedSendFromEmail, _cachedSendToEmail, _cachedEmailPass);
 
-            await Task.WhenAll(sendFromEmailTask, sendToEmailTask, emailPassTask);
+                var sendFromEmailTask = _secretClient.GetSecretAsync("Send--From--Email");
+                var sendToEmailTask = _secretClient.GetSecretAsync("Send--Email");
+                var emailPassTask = _secretClient.GetSecretAsync("Email--Pass");
 
-            _cachedSendFromEmail = sendFromEmailTask.Result.Value.Value ?? "";
-            _cachedSendToEmail = sendToEmailTask.Result.Value.Value ?? "";
-            _cachedEmailPass = emailPassTask.Result.Value.Value ?? "";
+                await Task.WhenAll(sendFromEmailTask, sendToEmailTask, emailPassTask);
 
-            return (_cachedSendFromEmail, _cachedSendToEmail, _cachedEmailPass);
+                _cachedSendFromEmail = sendFromEmailTask.Result.Value.Value ?? "";
+                _cachedSendToEmail = sendToEmailTask.Result.Value.Value ?? "";
+                _cachedEmailPass = emailPassTask.Result.Value.Value ?? "";
+                _cacheExpiresAtUtc = DateTime.UtcNow.Add(CacheDuration);
+
+                return (_cachedSendFromEmail, _cachedSendToEmail, _cachedEmailPass);
+            }
+            finally
+            {
+                _cacheLock.Release();
+            }
         }
     }
 }
