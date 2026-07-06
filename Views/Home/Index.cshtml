@@ -197,8 +197,22 @@
     }, { threshold: 0.1 });
 
     revealEls.forEach(el => observer.observe(el));
+
+    // The résumé preview pulls in pdf.js plus its worker (~1.4MB combined)
+    // on top of the PDF itself - defer that download until the résumé
+    // section is actually about to scroll into view instead of paying for
+    // it on every home page visit.
+    const resumeWrapper = document.getElementById('resumeCanvasWrapper');
+    if (resumeWrapper) {
+        const resumeObserver = new IntersectionObserver((entries, obs) => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                import('/js/resume-viewer.js');
+                obs.disconnect();
+            }
+        }, { rootMargin: '600px 0px' });
+        resumeObserver.observe(resumeWrapper);
+    }
 </script>
 
 <script src="~/js/home.js" asp-append-version="true"></script>
-<script type="module" src="~/js/resume-viewer.js" asp-append-version="true"></script>
 <script src="~/js/hero-terminal.js" asp-append-version="true"></script>
