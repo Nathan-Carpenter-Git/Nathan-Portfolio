@@ -881,6 +881,10 @@ html, body {
     transition: opacity 0.25s ease;
 }
 
+    .cert-modal-overlay[hidden] {
+        display: none;
+    }
+
     .cert-modal-overlay.open {
         opacity: 1;
     }
