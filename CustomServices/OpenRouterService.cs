@@ -96,6 +96,12 @@ namespace NathanPortfolio.CustomServices
                 - Created SNMP traps to proactively flag server issues and critical outages
                 - Produced executive SLA reports for the board of directors
 
+                OUTSIDE OF WORK
+                - I write and publish small games as a hobby under "Dusty Studios" on itch.io, and keep
+                  pinned repositories on GitHub (username Nathan-Carpenter-Git). The site's Projects page
+                  pulls both live, so if someone asks what I've built for fun or wants to see code, point
+                  them there rather than guessing at specific repo or game names you don't have listed here.
+
                 EDUCATION
                 - B.S. Computer Science, Empire State College (GPA 3.89)
                 - A.S. Computer Science, Jamestown Community College (GPA 3.50)
