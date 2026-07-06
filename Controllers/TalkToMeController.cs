@@ -19,7 +19,7 @@ namespace NathanPortfolio.Controllers
             ILogger<TalkToMeController> logger)
         {
             _openRouter = openRouter;
-            _logger     = logger;
+            _logger = logger;
         }
 
         // ── GET /TalkToMe ──────────────────────────────────────────────────────
@@ -49,7 +49,7 @@ namespace NathanPortfolio.Controllers
 
             history.Add(new ChatMessage
             {
-                Role    = "user",
+                Role = "user",
                 Content = request.Message.Trim()
             });
 

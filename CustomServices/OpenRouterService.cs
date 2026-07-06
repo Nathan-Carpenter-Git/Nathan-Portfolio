@@ -12,26 +12,26 @@ namespace NathanPortfolio.CustomServices
     // ── Implementation ─────────────────────────────────────────────────────────
     public class OpenRouterService : IOpenRouterService
     {
-        private const string Model          = "openrouter/free";
-        private const int    MaxContextTokens = 200_000;
+        private const string Model = "openrouter/free";
+        private const int MaxContextTokens = 200_000;
 
-        private const int    SafeCharLimit  = (MaxContextTokens - 1_500) * 4;
+        private const int SafeCharLimit = (MaxContextTokens - 1_500) * 4;
 
-        private const string OpenRouterUrl  = "https://openrouter.ai/api/v1/chat/completions";
+        private const string OpenRouterUrl = "https://openrouter.ai/api/v1/chat/completions";
         private const string KeyVaultSecret = "OpenRouterApiKey"; // name of the secret in Key Vault
 
-        private readonly HttpClient    _http;
-        private readonly SecretClient  _secretClient;
+        private readonly HttpClient _http;
+        private readonly SecretClient _secretClient;
         private readonly ILogger<OpenRouterService> _logger;
 
         private string? _cachedApiKey;
 
-        public OpenRouterService (IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<OpenRouterService> logger)
+        public OpenRouterService(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<OpenRouterService> logger)
         {
-            _http   = httpClientFactory.CreateClient("OpenRouter");
+            _http = httpClientFactory.CreateClient("OpenRouter");
             _logger = logger;
 
-            Uri vaultUri = new (configuration.GetSection("VaultURL").Value!);
+            Uri vaultUri = new(configuration.GetSection("VaultURL").Value!);
 
             _secretClient = new SecretClient(vaultUri, new DefaultAzureCredential());
         }
@@ -136,12 +136,12 @@ namespace NathanPortfolio.CustomServices
 
             var requestBody = new
             {
-                model    = Model,
+                model = Model,
                 messages = messages,
                 max_tokens = 2_048
             };
 
-            var json    = JsonSerializer.Serialize(requestBody);
+            var json = JsonSerializer.Serialize(requestBody);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             using var request = new HttpRequestMessage(HttpMethod.Post, OpenRouterUrl)
@@ -196,7 +196,7 @@ namespace NathanPortfolio.CustomServices
         {
             var systemMsg = new ChatMessage
             {
-                Role    = "system",
+                Role = "system",
                 Content = string.IsNullOrWhiteSpace(systemContext)
                             ? "You are a helpful assistant."
                             : systemContext.Trim()
