@@ -55,21 +55,32 @@
          FOOTER
     ══════════════════════════════ -->
     <footer class="nc-footer">
-        <p class="footer-copy">
-            &copy; 2024 &mdash; <span>Nathan's Portfolio</span>
-        </p>
-        <ul class="footer-links">
-            <li><a href="/">Home</a></li>
-            <li><div class="footer-divider"></div></li>
-            <li><a href="/TalkToMe">Talk To Me</a></li>
-            <li><div class="footer-divider"></div></li>
-            <li>@Html.ActionLink("Contact Me", "Index", "Contact")</li>
-        </ul>
+        <div class="footer-status" id="statusWidget" role="status" aria-live="polite">
+            <span class="status-dot" id="statusDot"></span>
+            <span class="status-label">SYSTEM</span>
+            <span class="status-item">uptime <strong id="statusUptime">--</strong></span>
+            <span class="status-item">latency <strong id="statusLatency">--</strong></span>
+            <span class="status-item">build <strong id="statusBuild">--</strong></span>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-copy">
+                &copy; 2024 &mdash; <span>Nathan's Portfolio</span>
+            </p>
+            <ul class="footer-links">
+                <li><a href="/">Home</a></li>
+                <li><div class="footer-divider"></div></li>
+                <li><a href="/TalkToMe">Talk To Me</a></li>
+                <li><div class="footer-divider"></div></li>
+                <li>@Html.ActionLink("Contact Me", "Index", "Contact")</li>
+            </ul>
+        </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/status-widget.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
