@@ -3,7 +3,7 @@
     ViewData["Description"] = "Nathan Carpenter is an IT & network professional with hands-on experience across enterprise networking, Azure cloud infrastructure, and systems administration. View his resume, certifications, and projects.";
 }
 
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="@Context.Items["csp-nonce"]">
 {
     "@@context": "https://schema.org",
     "@@type": "Person",
@@ -238,7 +238,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="@Context.Items["csp-nonce"]">
     // Intersection Observer for scroll-triggered reveals
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {

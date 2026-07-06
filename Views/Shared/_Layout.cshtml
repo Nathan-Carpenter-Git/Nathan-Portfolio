@@ -111,7 +111,7 @@
     <script src="~/js/status-widget.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-    <script>
+    <script nonce="@Context.Items["csp-nonce"]">
         // Navbar darkens on scroll
         const nav = document.getElementById('ncNav');
         window.addEventListener('scroll', () => {

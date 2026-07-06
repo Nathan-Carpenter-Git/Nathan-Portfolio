@@ -101,7 +101,7 @@
     }
 </section>
 
-<script>
+<script nonce="@Context.Items["csp-nonce"]">
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
