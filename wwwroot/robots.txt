@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nathancarpenter.dev/sitemap.xml
+Sitemap: https://nathansporfolio.azurewebsites.net/sitemap.xml
