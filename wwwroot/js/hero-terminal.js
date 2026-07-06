@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             run: () => {
                 appendLine('Wi-Fi Hardening - replaced insecure Wi-Fi with RADIUS + EAP-TLS, HA NPS, isolated BYOD access', 't-out');
                 appendLine('Zabbix SNMP System - containerized monitoring stack with SNMP traps and executive SLA reporting', 't-out');
+                appendLine('→ for GitHub repos and shipped games, see the <a href="/Projects">Projects page</a>.', 't-out t-dim');
             }
         },
         resume: {
