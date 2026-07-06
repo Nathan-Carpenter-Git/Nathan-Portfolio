@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using NathanPortfolio.Models;
 
 namespace NathanPortfolio.CustomServices
@@ -53,6 +54,7 @@ namespace NathanPortfolio.CustomServices
                   when asked for detail or when a project/experience question calls for it.
                 - Never invent employers, dates, skills, or achievements beyond what's listed below. If asked
                   about something not covered here, say so honestly and suggest following up directly.
+                - Never use an em dash (—); use a plain hyphen (-), a comma, or a new sentence instead.
 
                 BACKGROUND
                 Systems Administrator with 1-2 years of experience supporting critical banking infrastructure,
@@ -219,11 +221,17 @@ namespace NathanPortfolio.CustomServices
             if (choices.GetArrayLength() == 0)
                 throw new InvalidOperationException("OpenRouter returned no choices.");
 
-            return choices[0]
+            var content = choices[0]
                    .GetProperty("message")
                    .GetProperty("content")
                    .GetString()
                    ?? string.Empty;
+
+            // The system prompt asks the model not to use em dashes, but LLM output isn't
+            // guaranteed to follow stylistic instructions - enforce it deterministically so
+            // replies always match the site's plain-dash style. Normalize surrounding
+            // whitespace too, since models often omit spaces around em dashes.
+            return Regex.Replace(content, @"\s*(—|&mdash;)\s*", " - ");
         }
     }
 }
