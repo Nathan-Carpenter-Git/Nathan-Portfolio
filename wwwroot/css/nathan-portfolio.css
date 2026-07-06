@@ -562,6 +562,7 @@ html, body {
 
 .about-photo {
     width: 100%;
+    height: auto;
     border-radius: 8px;
     display: block;
     filter: grayscale(20%) contrast(1.05);
