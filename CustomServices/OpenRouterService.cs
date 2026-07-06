@@ -107,7 +107,7 @@ namespace NathanPortfolio.CustomServices
                 - A.S. Computer Science, Jamestown Community College (GPA 3.50)
 
                 CERTIFICATIONS
-                AZ-104 (in progress), CompTIA Network+ (2026), AZ-900 (2025), AIT (2022),
+                AZ-104 (in progress), CompTIA Network+ (2026), AZ-900 (2026), AIT (2022),
                 TestOut Network Pro (2021), TestOut PC Pro (2020)
 
                 SCOPE & BOUNDARIES
