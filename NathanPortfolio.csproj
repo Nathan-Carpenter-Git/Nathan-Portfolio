@@ -29,4 +29,10 @@
     <Folder Include="Views\Home\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="NathanPortfolio.Tests\**\*.cs" />
+    <Content Remove="NathanPortfolio.Tests\**\*" />
+    <None Remove="NathanPortfolio.Tests\**\*" />
+  </ItemGroup>
+
 </Project>
