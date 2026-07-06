@@ -1,0 +1,111 @@
+@model ProjectsViewModel
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<link rel="stylesheet" href="~/css/nathan-portfolio.css" asp-append-version="true" />
+
+<section class="nc-section reveal projects-hero">
+    <div class="section-label">05</div>
+    <h1 class="section-heading">My <span>Projects</span></h1>
+    <p class="projects-intro">
+        A live feed of what I'm building - pinned repositories straight from GitHub, and the latest games I've shipped on itch.io.
+    </p>
+</section>
+
+<div class="nc-divider"></div>
+
+<!-- ══════════════════════════════
+     GITHUB PINNED REPOS
+══════════════════════════════ -->
+<section class="nc-section reveal">
+    <div class="section-label">05.1</div>
+    <h2 class="section-heading">Pinned <span>Repositories</span></h2>
+
+    @if (Model.GitHubAvailable && Model.PinnedRepos.Count > 0)
+    {
+        <div class="repo-grid">
+            @foreach (var repo in Model.PinnedRepos)
+            {
+                <a class="repo-card reveal" href="@repo.Url" target="_blank" rel="noopener">
+                    <div class="repo-card-header">
+                        <span class="repo-card-icon">&#128193;</span>
+                        <span class="repo-card-name">@repo.Name</span>
+                    </div>
+                    <p class="repo-card-desc">@repo.Description</p>
+                    <div class="repo-card-meta">
+                        @if (!string.IsNullOrEmpty(repo.LanguageName))
+                        {
+                            <span class="repo-card-lang">
+                                <span class="repo-lang-dot" style="background:@(repo.LanguageColor ?? "#7a9bb5")"></span>
+                                @repo.LanguageName
+                            </span>
+                        }
+                        <span class="repo-card-stat">&#9733; @repo.Stars</span>
+                        <span class="repo-card-stat">&#8916; @repo.Forks</span>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="projects-empty">Couldn't load pinned repos right now - check back shortly, or view the profile directly on <a href="https://github.com/Nathan-Carpenter-Git" target="_blank" rel="noopener">GitHub</a>.</p>
+    }
+</section>
+
+<div class="nc-divider"></div>
+
+<!-- ══════════════════════════════
+     ITCH.IO LATEST GAMES
+══════════════════════════════ -->
+<section class="nc-section reveal">
+    <div class="section-label">05.2</div>
+    <h2 class="section-heading">Latest <span>Games</span></h2>
+
+    @if (Model.ItchAvailable && Model.RecentGames.Count > 0)
+    {
+        <div class="game-grid">
+            @foreach (var game in Model.RecentGames)
+            {
+                <a class="game-card reveal" href="@game.Url" target="_blank" rel="noopener">
+                    @if (!string.IsNullOrEmpty(game.CoverUrl))
+                    {
+                        <div class="game-card-cover">
+                            <img src="@game.CoverUrl" alt="@game.Title" loading="lazy" />
+                        </div>
+                    }
+                    <div class="game-card-body">
+                        <p class="game-card-title">@game.Title</p>
+                        @if (!string.IsNullOrEmpty(game.ShortText))
+                        {
+                            <p class="game-card-desc">@game.ShortText</p>
+                        }
+                        @if (game.PublishedAt.HasValue)
+                        {
+                            <p class="game-card-date">Published @game.PublishedAt.Value.ToString("MMM yyyy")</p>
+                        }
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="projects-empty">Couldn't load recent games right now - check back shortly, or browse the catalog directly on <a href="https://dusty-studios.itch.io" target="_blank" rel="noopener">itch.io</a>.</p>
+    }
+</section>
+
+<script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    revealEls.forEach(el => observer.observe(el));
+</script>

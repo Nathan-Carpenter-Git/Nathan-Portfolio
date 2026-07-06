@@ -6,9 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddHttpClient("OpenRouter");
 builder.Services.AddSingleton<IOpenRouterService, OpenRouterService>();
+builder.Services.AddHttpClient("GitHub");
+builder.Services.AddSingleton<IGitHubService, GitHubService>();
+builder.Services.AddHttpClient("Itch");
+builder.Services.AddSingleton<IItchService, ItchService>();
 
 var app = builder.Build();
 
