@@ -46,7 +46,7 @@ function renderMessage(role, content, isTyping = false) {
 
     const avatar = document.createElement('div');
     avatar.classList.add('chat-avatar');
-    avatar.textContent = role === 'user' ? 'NC' : 'AI';
+    avatar.textContent = role === 'user' ? 'ME' : 'AI';
 
     const bubble = document.createElement('div');
     bubble.classList.add('chat-bubble');
