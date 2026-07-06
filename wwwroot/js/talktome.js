@@ -1,4 +1,4 @@
-// talktome.js — chat page logic for TalkToMe view
+// talktome.js - chat page logic for TalkToMe view
 
 // ── State ────────────────────────────────────────────────
 // Each entry: { role: "user"|"assistant", content: "..." }
@@ -110,7 +110,7 @@ async function sendMessage() {
 
     } catch (err) {
         document.getElementById('typingIndicator')?.remove();
-        const errRow = renderMessage('assistant', 'Network error — please try again.');
+        const errRow = renderMessage('assistant', 'Network error - please try again.');
         errRow.querySelector('.chat-bubble').classList.add('error');
         // Roll back the user message that failed
         messageHistory.pop();

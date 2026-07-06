@@ -433,7 +433,7 @@ html, body {
     }
 }
 
-/* Hero — Phone */
+/* Hero - Phone */
 @media (max-width: 768px) {
     .hero-section {
         min-height: 100svh;
@@ -615,7 +615,7 @@ html, body {
     text-transform: uppercase;
 }
 
-/* About — Phone */
+/* About - Phone */
 @media (max-width: 768px) {
     .about-grid {
         grid-template-columns: 1fr;
@@ -737,7 +737,7 @@ html, body {
             transform: none;
         }
 
-/* Certificates — Phone */
+/* Certificates - Phone */
 @media (max-width: 768px) {
     .certs-track {
         gap: 16px;
@@ -1035,7 +1035,7 @@ html, body {
     padding: 0 20px;
 }
 
-/* Resume — Phone */
+/* Resume - Phone */
 @media (max-width: 768px) {
     .resume-toolbar-label {
         font-size: 0.62rem;
@@ -1282,7 +1282,7 @@ body {
         color: #7a9bb5;
     }
 
-    /* Contact CTA button — slightly more prominent */
+    /* Contact CTA button - slightly more prominent */
     .nc-nav-links .nav-cta {
         color: #7a9bb5;
         border-color: rgba(0, 229, 255, 0.2);
@@ -1841,7 +1841,7 @@ body {
     }
 
 /* ══════════════════════════════
-   TALK TO ME — CHAT PAGE
+   TALK TO ME - CHAT PAGE
 ══════════════════════════════ */
 
 /* Full-height layout */
