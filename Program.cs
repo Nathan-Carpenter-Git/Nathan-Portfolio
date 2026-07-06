@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
+using Microsoft.AspNetCore.ResponseCompression;
 using NathanPortfolio.CustomServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,12 @@ builder.Services.AddHttpClient("GitHub");
 builder.Services.AddSingleton<IGitHubService, GitHubService>();
 builder.Services.AddHttpClient("Itch");
 builder.Services.AddSingleton<IItchService, ItchService>();
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
 
 var app = builder.Build();
 
@@ -25,8 +32,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseResponseCompression();
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        var oneYear = (60 * 60 * 24 * 365).ToString();
+        var oneDay = (60 * 60 * 24).ToString();
+        var isVersioned = ctx.Context.Request.Query.ContainsKey("v");
+        ctx.Context.Response.Headers.CacheControl = isVersioned
+            ? $"public,max-age={oneYear},immutable"
+            : $"public,max-age={oneDay}";
+    }
+});
 
 app.UseRouting();
 
