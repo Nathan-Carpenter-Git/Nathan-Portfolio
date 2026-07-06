@@ -77,7 +77,7 @@
                     @if (!string.IsNullOrEmpty(game.CoverUrl))
                     {
                         <div class="game-card-cover">
-                            <img src="@game.CoverUrl" alt="@game.Title" loading="lazy" />
+                            <img src="@game.CoverUrl" alt="@game.Title" loading="lazy" decoding="async" />
                         </div>
                     }
                     <div class="game-card-body">
