@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -98,7 +97,6 @@ app.MapGet("/api/status", () =>
     {
         status = "operational",
         serverTimeUtc = DateTime.UtcNow,
-        startedAtUtc = Process.GetCurrentProcess().StartTime.ToUniversalTime(),
         commit
     });
 });
