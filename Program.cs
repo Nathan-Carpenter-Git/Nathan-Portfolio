@@ -30,14 +30,6 @@ builder.Services.Configure<GzipCompressionProviderOptions>(options =>
 {
     options.Level = System.IO.Compression.CompressionLevel.SmallestSize;
 });
-builder.Services.AddWebOptimizer(pipeline =>
-{
-    // JS is intentionally left unminified: NUglify's JS minifier mis-renames
-    // variables in some of this site's scripts (confirmed via live browser
-    // testing, e.g. hero-terminal.js/status-widget.js throw "x is not defined"
-    // at runtime post-minification), so it's not safe to enable here.
-    pipeline.MinifyCssFiles("css/*.css");
-});
 
 var app = builder.Build();
 
@@ -70,7 +62,6 @@ app.Use(async (context, next) =>
 
 app.UseResponseCompression();
 app.UseHttpsRedirection();
-app.UseWebOptimizer();
 app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
