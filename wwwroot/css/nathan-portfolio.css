@@ -1400,12 +1400,14 @@ body {
     -webkit-backdrop-filter: blur(12px);
     transform: translateY(-8px);
     opacity: 0;
+    pointer-events: none;
     transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
     .nc-mobile-menu.open {
         transform: translateY(0);
         opacity: 1;
+        pointer-events: auto;
     }
 
     .nc-mobile-menu ul {
@@ -1445,10 +1447,6 @@ body {
             background: rgba(0, 229, 255, 0.08);
             box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
         }
-
-    .nc-mobile-menu .nav-cta {
-        margin-top: 4px;
-    }
 
 @media (max-width: 768px) {
     .nc-nav {
