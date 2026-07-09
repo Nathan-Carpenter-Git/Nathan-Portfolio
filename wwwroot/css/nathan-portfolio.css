@@ -153,6 +153,7 @@ html, body {
     position: relative;
     z-index: 1;
     padding: 80px 60px;
+    container-type: inline-size;
 }
 
 @media (max-width: 768px) {
@@ -191,7 +192,10 @@ html, body {
 .section-heading {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    /* cqw ties size to the actual .nc-section content width, so the
+       widest heading word (e.g. "Certifications") always fits without
+       wrapping mid-word, at any viewport size. */
+    font-size: clamp(1.3rem, 8.3cqw, 3.5rem);
     color: var(--text-primary);
     line-height: 1.1;
     margin-bottom: 40px;
@@ -203,7 +207,6 @@ html, body {
 
 @media (max-width: 768px) {
     .section-heading {
-        font-size: clamp(1.75rem, 8vw, 2.6rem);
         margin-bottom: 28px;
         overflow-wrap: break-word;
     }
@@ -230,6 +233,7 @@ html, body {
         flex: 1 1 auto;
         min-width: 0;
         max-width: 720px;
+        container-type: inline-size;
     }
 
     /* Radial glow behind hero text */
@@ -258,7 +262,10 @@ html, body {
 .hero-name {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: clamp(3rem, 9vw, 4.1rem);
+    /* cqw ties size to the actual container width (the flex item this
+       sits in), so "Carpenter" always fits on one line without breaking
+       mid-word, at any viewport size. */
+    font-size: clamp(1.6rem, 11cqw, 4.1rem);
     line-height: 0.95;
     color: var(--text-primary);
     margin-bottom: 24px;
@@ -497,7 +504,6 @@ html, body {
     }
 
     .hero-name {
-        font-size: clamp(2rem, 10.5vw, 2.6rem);
         line-height: 1.05;
         overflow-wrap: break-word;
         margin-bottom: 18px;
@@ -536,16 +542,11 @@ html, body {
         letter-spacing: 0.08em;
     }
 
-    .hero-name {
-        font-size: clamp(1.8rem, 10.5vw, 2.2rem);
-    }
-
     .hero-tagline {
         font-size: 0.78rem;
     }
 
     .section-heading {
-        font-size: clamp(1.5rem, 9vw, 2.2rem);
         margin-bottom: 22px;
     }
 }
