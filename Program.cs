@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 using NathanPortfolio.CustomServices;
 
@@ -31,6 +32,20 @@ builder.Services.Configure<GzipCompressionProviderOptions>(options =>
 });
 
 var app = builder.Build();
+
+// Behind Cloudflare (App Service terminates TLS at the platform, and Cloudflare
+// forwards to us as HTTP), so honour X-Forwarded-Proto/-For to recover the
+// original https scheme and client IP. Without this, UseHttpsRedirection sees
+// the proxied request as http and issues a redirect, causing a redirect loop.
+// KnownNetworks/KnownProxies are cleared because App Service/Cloudflare front-end
+// IPs are dynamic and not enumerable here.
+var forwardedHeadersOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+};
+forwardedHeadersOptions.KnownNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
