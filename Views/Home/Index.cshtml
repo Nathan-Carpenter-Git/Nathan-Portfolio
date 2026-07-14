@@ -7,6 +7,12 @@
     // is never masked by the browser/Cloudflare cache. Shared by the download
     // links here and the pdf.js viewer (via data-resume-url below).
     var resumeUrl = FileVersionProvider.AddFileVersionToPath(Context.Request.PathBase, "/shared/docs/resume.pdf");
+
+    // Fingerprint the resume-viewer module too. It is loaded via a dynamic
+    // import() below (every other script uses asp-append-version), so without
+    // this a changed viewer stays cached and keeps loading the old resume even
+    // after the PDF and the rest of the page have updated.
+    var resumeViewerUrl = FileVersionProvider.AddFileVersionToPath(Context.Request.PathBase, "/js/resume-viewer.js");
 }
 
 <script type="application/ld+json" nonce="@Context.Items["csp-nonce"]">
@@ -262,7 +268,7 @@
     if (resumeWrapper) {
         const resumeObserver = new IntersectionObserver((entries, obs) => {
             if (entries.some(entry => entry.isIntersecting)) {
-                import('/js/resume-viewer.js');
+                import('@resumeViewerUrl');
                 obs.disconnect();
             }
         }, { rootMargin: '600px 0px' });
