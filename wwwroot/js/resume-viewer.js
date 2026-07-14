@@ -40,7 +40,8 @@ if (wrapper && canvas) {
         });
     }
 
-    pdfjsLib.getDocument('/shared/docs/resume.pdf').promise
+    const resumeUrl = wrapper.dataset.resumeUrl || '/shared/docs/resume.pdf';
+    pdfjsLib.getDocument(resumeUrl).promise
         .then(doc => {
             pdfDoc = doc;
             loadingEl.style.display = 'none';

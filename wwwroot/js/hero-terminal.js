@@ -93,7 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: 'view or download the résumé',
             aliases: ['cat resume'],
             run: () => {
-                appendLine('→ scrolling to Résumé… (or <a href="/shared/docs/resume.pdf" download>download the PDF</a>)', 't-out t-dim');
+                const resumeUrl = document.querySelector('[data-resume-url]')?.dataset.resumeUrl || '/shared/docs/resume.pdf';
+                appendLine('→ scrolling to Résumé… (or <a href="' + resumeUrl + '" download>download the PDF</a>)', 't-out t-dim');
                 scrollToId('resume');
             }
         },
