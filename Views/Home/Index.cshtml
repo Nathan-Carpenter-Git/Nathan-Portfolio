@@ -1,6 +1,12 @@
+@inject Microsoft.AspNetCore.Mvc.ViewFeatures.IFileVersionProvider FileVersionProvider
 @{
     ViewData["Title"] = "Nathan Carpenter";
     ViewData["Description"] = "Nathan Carpenter is an IT & network professional with hands-on experience across enterprise networking, Azure cloud infrastructure, and systems administration. View his resume, certifications, and projects.";
+
+    // Append a content-hash (?v=...) so a re-uploaded resume gets a fresh URL and
+    // is never masked by the browser/Cloudflare cache. Shared by the download
+    // links here and the pdf.js viewer (via data-resume-url below).
+    var resumeUrl = FileVersionProvider.AddFileVersionToPath(Context.Request.PathBase, "/shared/docs/resume.pdf");
 }
 
 <script type="application/ld+json" nonce="@Context.Items["csp-nonce"]">
@@ -201,10 +207,10 @@
     <div class="resume-embed-wrapper">
         <div class="resume-toolbar">
             <span class="resume-toolbar-label">// resume.pdf</span>
-            <a class="resume-download-btn" href="/shared/docs/resume.pdf" download>↓ Download PDF</a>
+            <a class="resume-download-btn" href="@resumeUrl" download>↓ Download PDF</a>
         </div>
 
-        <div class="resume-canvas-wrapper" id="resumeCanvasWrapper">
+        <div class="resume-canvas-wrapper" id="resumeCanvasWrapper" data-resume-url="@resumeUrl">
             <canvas id="resumeCanvas"></canvas>
             <div class="resume-loading" id="resumeLoading">Loading preview…</div>
         </div>
