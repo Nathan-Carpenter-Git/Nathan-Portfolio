@@ -80,12 +80,17 @@ app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
     {
+        // Fingerprinted (?v=hash) URLs are immutable: the content is pinned to the
+        // hash, so caches may keep them for a year and never revalidate. The bare,
+        // canonical URL (no ?v) must instead revalidate on every use - otherwise a
+        // re-uploaded-in-place asset (e.g. resume.pdf) stays stale in Cloudflare /
+        // the browser for the whole max-age window. no-cache still allows storing
+        // the response and answering with a cheap 304 via the ETag when unchanged.
         var oneYear = (60 * 60 * 24 * 365).ToString();
-        var oneDay = (60 * 60 * 24).ToString();
         var isVersioned = ctx.Context.Request.Query.ContainsKey("v");
         ctx.Context.Response.Headers.CacheControl = isVersioned
             ? $"public,max-age={oneYear},immutable"
-            : $"public,max-age={oneDay}";
+            : "public,no-cache";
     }
 });
 
