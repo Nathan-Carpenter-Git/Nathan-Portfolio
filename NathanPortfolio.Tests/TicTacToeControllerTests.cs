@@ -1,8 +1,6 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Moq;
 using NathanPortfolio.Controllers;
-using NathanPortfolio.CustomServices;
 using NathanPortfolio.Models;
 using Xunit;
 
@@ -10,65 +8,30 @@ namespace NathanPortfolio.Tests
 {
     public class TicTacToeControllerTests
     {
-        private static TicTacToeController CreateController(Mock<IOpenRouterService> openRouterMock) =>
-            new(openRouterMock.Object, Mock.Of<ILogger<TicTacToeController>>());
+        private static readonly TicTacToeController Controller = new();
 
-        private static string? CapturedSystemContext(Mock<IOpenRouterService> mock)
+        private static int GetBestMove(string?[] board, string aiMark, string humanMark)
         {
-            var invocation = mock.Invocations.LastOrDefault(i => i.Method.Name == nameof(IOpenRouterService.SendMessageAsync));
-            return invocation?.Arguments[1] as string;
+            var method = typeof(TicTacToeController).GetMethod("GetBestMove", BindingFlags.NonPublic | BindingFlags.Static)!;
+            return (int)method.Invoke(null, [board, aiMark, humanMark])!;
+        }
+
+        private static string? GetWinner(string?[] board)
+        {
+            var method = typeof(TicTacToeController).GetMethod("GetWinner", BindingFlags.NonPublic | BindingFlags.Static)!;
+            return (string?)method.Invoke(null, [board]);
+        }
+
+        private static int GetIndex(object? value)
+        {
+            var property = value!.GetType().GetProperty("index")!;
+            return (int)property.GetValue(value)!;
         }
 
         [Fact]
-        public async Task Move_AiRepliesWithUsableDigit_ReturnsThatIndex()
+        public void Move_EmptyBoard_ReturnsIndexWithinRange()
         {
-            var openRouterMock = new Mock<IOpenRouterService>();
-            openRouterMock.Setup(s => s.SendMessageAsync(It.IsAny<List<ChatMessage>>(), It.IsAny<string>()))
-                          .ReturnsAsync("4");
-            var controller = CreateController(openRouterMock);
-
-            var result = await controller.Move(new TicTacToeMoveRequest
-            {
-                Board = new string?[9],
-                AiMark = "O"
-            });
-
-            var ok = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(4, GetIndex(ok.Value));
-        }
-
-        [Fact]
-        public async Task Move_AiRepliesWithUnusableText_FallsBackToARandomLegalCell()
-        {
-            var openRouterMock = new Mock<IOpenRouterService>();
-            openRouterMock.Setup(s => s.SendMessageAsync(It.IsAny<List<ChatMessage>>(), It.IsAny<string>()))
-                          .ReturnsAsync("I decline to play.");
-            var controller = CreateController(openRouterMock);
-
-            var board = new string?[9];
-            board[4] = "X"; // only the other 8 cells are legal
-
-            var result = await controller.Move(new TicTacToeMoveRequest { Board = board, AiMark = "O" });
-
-            var ok = Assert.IsType<OkObjectResult>(result);
-            var index = GetIndex(ok.Value);
-            Assert.NotEqual(4, index);
-            Assert.InRange(index, 0, 8);
-        }
-
-        [Fact]
-        public async Task Move_AiServiceThrows_FallsBackToARandomLegalCellInsteadOfFailing()
-        {
-            var openRouterMock = new Mock<IOpenRouterService>();
-            openRouterMock.Setup(s => s.SendMessageAsync(It.IsAny<List<ChatMessage>>(), It.IsAny<string>()))
-                          .ThrowsAsync(new HttpRequestException("OpenRouter unavailable"));
-            var controller = CreateController(openRouterMock);
-
-            var result = await controller.Move(new TicTacToeMoveRequest
-            {
-                Board = new string?[9],
-                AiMark = "X"
-            });
+            var result = Controller.Move(new TicTacToeMoveRequest { Board = new string?[9], AiMark = "O" });
 
             var ok = Assert.IsType<OkObjectResult>(result);
             Assert.InRange(GetIndex(ok.Value), 0, 8);
@@ -77,77 +40,109 @@ namespace NathanPortfolio.Tests
         [Theory]
         [InlineData(null)]
         [InlineData("Z")]
-        public async Task Move_InvalidAiMark_ReturnsBadRequest(string? aiMark)
+        public void Move_InvalidAiMark_ReturnsBadRequest(string? aiMark)
         {
-            var openRouterMock = new Mock<IOpenRouterService>();
-            var controller = CreateController(openRouterMock);
-
-            var result = await controller.Move(new TicTacToeMoveRequest { Board = new string?[9], AiMark = aiMark! });
+            var result = Controller.Move(new TicTacToeMoveRequest { Board = new string?[9], AiMark = aiMark! });
 
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
-        public async Task Move_BoardAlreadyFull_ReturnsBadRequest()
+        public void Move_BoardAlreadyFull_ReturnsBadRequest()
         {
-            var openRouterMock = new Mock<IOpenRouterService>();
-            var controller = CreateController(openRouterMock);
             var fullBoard = Enumerable.Repeat("X", 9).ToArray<string?>();
 
-            var result = await controller.Move(new TicTacToeMoveRequest { Board = fullBoard, AiMark = "O" });
+            var result = Controller.Move(new TicTacToeMoveRequest { Board = fullBoard, AiMark = "O" });
 
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
-        public async Task Move_SystemPromptSentToAi_NeverContainsTheNathanChatPersona()
+        public void GetBestMove_WinningMoveAvailable_TakesIt()
         {
-            // The chat widget's Nathan persona must stay scoped to TalkToMe; it must never
-            // leak into the TicTacToe AI's system prompt, which plays an unrelated game role.
-            var openRouterMock = new Mock<IOpenRouterService>();
-            openRouterMock.Setup(s => s.SendMessageAsync(It.IsAny<List<ChatMessage>>(), It.IsAny<string>()))
-                          .ReturnsAsync("0");
-            var controller = CreateController(openRouterMock);
+            // O O _ / X X _ / _ _ _  -> O completes the top row at index 2.
+            var board = new string?[] { "O", "O", null, "X", "X", null, null, null, null };
 
-            await controller.Move(new TicTacToeMoveRequest { Board = new string?[9], AiMark = "O" });
-
-            var systemContext = CapturedSystemContext(openRouterMock);
-            Assert.NotNull(systemContext);
-            Assert.DoesNotContain("Nathan Carpenter", systemContext);
-            Assert.DoesNotContain("Cattaraugus County Bank", systemContext);
-            Assert.Contains("tic-tac-toe", systemContext, StringComparison.OrdinalIgnoreCase);
+            Assert.Equal(2, GetBestMove(board, "O", "X"));
         }
 
         [Fact]
-        public async Task Move_OverManyCalls_AiIsInstructedToDeliberatelyMistakeAboutOnePercentOfTheTime()
+        public void GetBestMove_OpponentThreatensWin_BlocksIt()
         {
-            var openRouterMock = new Mock<IOpenRouterService>();
-            openRouterMock.Setup(s => s.SendMessageAsync(It.IsAny<List<ChatMessage>>(), It.IsAny<string>()))
-                          .ReturnsAsync("0");
-            var controller = CreateController(openRouterMock);
+            // X X _ / O _ _ / _ _ _  -> O must block at index 2.
+            var board = new string?[] { "X", "X", null, "O", null, null, null, null, null };
 
+            Assert.Equal(2, GetBestMove(board, "O", "X"));
+        }
+
+        [Fact]
+        public void GetBestMove_NeverLosesAcrossTheFullGameTree_WhenAiMovesFirst()
+        {
+            Assert.False(CanOpponentWin(new string?[9], "O", "X", aiTurn: true));
+        }
+
+        [Fact]
+        public void GetBestMove_NeverLosesAcrossTheFullGameTree_WhenAiMovesSecond()
+        {
+            Assert.False(CanOpponentWin(new string?[9], "O", "X", aiTurn: false));
+        }
+
+        /// <summary>
+        /// Exhaustively plays out every possible sequence of opponent replies against the
+        /// AI's minimax move and reports whether the opponent can force a win anywhere in
+        /// the tree. A perfect tic-tac-toe player can never be beaten.
+        /// </summary>
+        private static bool CanOpponentWin(string?[] board, string aiMark, string humanMark, bool aiTurn)
+        {
+            var winner = GetWinner(board);
+            if (winner == humanMark) return true;
+            if (winner == aiMark) return false;
+            if (Array.TrueForAll(board, cell => cell is not null)) return false;
+
+            if (aiTurn)
+            {
+                var move = GetBestMove(board, aiMark, humanMark);
+                board[move] = aiMark;
+                var lost = CanOpponentWin(board, aiMark, humanMark, aiTurn: false);
+                board[move] = null;
+                return lost;
+            }
+
+            for (var i = 0; i < board.Length; i++)
+            {
+                if (board[i] is not null) continue;
+
+                board[i] = humanMark;
+                var lost = CanOpponentWin(board, aiMark, humanMark, aiTurn: true);
+                board[i] = null;
+
+                if (lost) return true;
+            }
+
+            return false;
+        }
+
+        [Fact]
+        public void Move_OverManyCalls_DeliberatelyMistakesAboutOnePercentOfTheTime()
+        {
+            // Exactly one best move (index 2 completes the win), so any other index is a mistake.
+            var board = new string?[] { "O", "O", null, "X", "X", null, null, null, null };
             const int trials = 5000;
-            var mistakeInstructions = 0;
+            var mistakes = 0;
 
             for (var i = 0; i < trials; i++)
             {
-                await controller.Move(new TicTacToeMoveRequest { Board = new string?[9], AiMark = "O" });
-                var systemContext = CapturedSystemContext(openRouterMock)!;
-                if (systemContext.Contains("deliberately play a bit below your best", StringComparison.OrdinalIgnoreCase))
-                    mistakeInstructions++;
+                var result = Controller.Move(new TicTacToeMoveRequest { Board = (string?[])board.Clone(), AiMark = "O" });
+                var ok = Assert.IsType<OkObjectResult>(result);
+                if (GetIndex(ok.Value) != 2)
+                    mistakes++;
             }
 
             // 1% target over 5000 trials (mean 50, stddev ~7); allow generous slack (0.3%-2%)
-            // to avoid a flaky test while still catching the mistake-instruction path being
-            // broken, never firing, or reverted to the old 25% rate.
-            var rate = mistakeInstructions / (double)trials;
+            // to avoid a flaky test while still catching the mistake path being broken, never
+            // firing, or set to the wrong rate.
+            var rate = mistakes / (double)trials;
             Assert.InRange(rate, 0.003, 0.02);
-        }
-
-        private static int GetIndex(object? value)
-        {
-            var property = value!.GetType().GetProperty("index")!;
-            return (int)property.GetValue(value)!;
         }
     }
 }

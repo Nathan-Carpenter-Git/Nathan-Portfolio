@@ -1,18 +1,19 @@
-using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
-using NathanPortfolio.CustomServices;
 using NathanPortfolio.Models;
 
 namespace NathanPortfolio.Controllers
 {
-    public class TicTacToeController(IOpenRouterService openRouter, ILogger<TicTacToeController> logger) : Controller
+    public class TicTacToeController : Controller
     {
-        // How often the AI is instructed to play a deliberately suboptimal move.
+        // How often the AI deliberately plays a suboptimal move instead of its best one.
         private const double MistakeChance = 0.01;
 
-        private readonly IOpenRouterService _openRouter = openRouter;
-        private readonly ILogger<TicTacToeController> _logger = logger;
+        private static readonly int[][] WinLines =
+        [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
 
         // ── GET /TicTacToe ──────────────────────────────────────────────────────
 
@@ -25,7 +26,7 @@ namespace NathanPortfolio.Controllers
         // ── POST /TicTacToe/Move ────────────────────────────────────────────────
 
         [HttpPost]
-        public async Task<IActionResult> Move([FromBody] TicTacToeMoveRequest? request)
+        public IActionResult Move([FromBody] TicTacToeMoveRequest? request)
         {
             if (request?.Board is not { Length: 9 } board ||
                 (request.AiMark != "X" && request.AiMark != "O") ||
@@ -39,67 +40,88 @@ namespace NathanPortfolio.Controllers
                 return BadRequest(new { error = "The board is already full." });
 
             var humanMark = request.AiMark == "X" ? "O" : "X";
+            var bestMove = GetBestMove(board, request.AiMark, humanMark);
+
             var makeMistake = Random.Shared.NextDouble() < MistakeChance;
+            var index = makeMistake ? PickSuboptimalMove(emptyCells, bestMove) : bestMove;
 
-            try
-            {
-                var reply = await _openRouter.SendMessageAsync(
-                    [new ChatMessage { Role = "user", Content = BuildBoardPrompt(board) }],
-                    BuildSystemPrompt(request.AiMark, humanMark, makeMistake));
-
-                return Ok(new { index = ParseMoveIndex(reply, emptyCells) });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "TicTacToe AI move failed - falling back to a random legal move.");
-                return Ok(new { index = emptyCells[Random.Shared.Next(emptyCells.Count)] });
-            }
+            return Ok(new { index });
         }
 
-        // ── Prompt building ──────────────────────────────────────────────────────
+        // ── Move selection ──────────────────────────────────────────────────────
 
-        private static string BuildBoardPrompt(string?[] board)
+        /// <summary>
+        /// Picks a legal cell other than the optimal move, for the rare deliberate mistake.
+        /// Falls back to the optimal move if it's the only legal cell left.
+        /// </summary>
+        private static int PickSuboptimalMove(List<int> emptyCells, int bestMove)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("Cells are numbered 0-8, left-to-right then top-to-bottom. Current board:");
+            var alternatives = emptyCells.Where(i => i != bestMove).ToList();
+            return alternatives.Count == 0 ? bestMove : alternatives[Random.Shared.Next(alternatives.Count)];
+        }
 
-            for (var row = 0; row < 3; row++)
+        /// <summary>
+        /// Returns the index of the game-theoretically optimal move for <paramref name="aiMark"/>
+        /// via exhaustive minimax search. Tic-tac-toe's state space is tiny (at most 9! states),
+        /// so this always runs instantly and always plays perfectly.
+        /// </summary>
+        private static int GetBestMove(string?[] board, string aiMark, string humanMark)
+        {
+            var bestScore = int.MinValue;
+            var bestMove = -1;
+
+            for (var i = 0; i < board.Length; i++)
             {
-                var cells = Enumerable.Range(row * 3, 3).Select(i => board[i] ?? i.ToString());
-                sb.AppendLine(string.Join(" | ", cells));
+                if (board[i] is not null) continue;
+
+                board[i] = aiMark;
+                var score = Minimax(board, depth: 1, isMaximizing: false, aiMark, humanMark);
+                board[i] = null;
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestMove = i;
+                }
             }
 
-            return sb.ToString();
+            return bestMove;
         }
 
-        private static string BuildSystemPrompt(string aiMark, string humanMark, bool makeMistake)
+        private static int Minimax(string?[] board, int depth, bool isMaximizing, string aiMark, string humanMark)
         {
-            var strategy = makeMistake
-                ? "For this move only, deliberately play a bit below your best - skip the objectively " +
-                  "optimal move and pick a reasonable-looking but suboptimal one instead. It must still " +
-                  "land on an empty cell; don't pick an obviously nonsensical move."
-                : "Play the objectively best move: take a win if one is available, block the human's " +
-                  "winning move if they threaten one, and otherwise follow optimal tic-tac-toe strategy.";
+            var winner = GetWinner(board);
+            if (winner == aiMark) return 10 - depth;
+            if (winner == humanMark) return depth - 10;
+            if (Array.TrueForAll(board, mark => mark is not null)) return 0;
 
-            return $"""
-                You are the AI opponent in a tic-tac-toe game embedded on my portfolio site. You play as
-                "{aiMark}"; the human plays as "{humanMark}". {strategy}
+            var turnMark = isMaximizing ? aiMark : humanMark;
+            var best = isMaximizing ? int.MinValue : int.MaxValue;
 
-                Reply with ONLY the number (0-8) of the empty cell you choose. No words, no punctuation,
-                just the digit.
-                """;
+            for (var i = 0; i < board.Length; i++)
+            {
+                if (board[i] is not null) continue;
+
+                board[i] = turnMark;
+                var score = Minimax(board, depth + 1, !isMaximizing, aiMark, humanMark);
+                board[i] = null;
+
+                best = isMaximizing ? Math.Max(best, score) : Math.Min(best, score);
+            }
+
+            return best;
         }
 
-        // ── Reply parsing ────────────────────────────────────────────────────────
-
-        private int ParseMoveIndex(string reply, List<int> emptyCells)
+        private static string? GetWinner(string?[] board)
         {
-            var match = Regex.Match(reply, @"\b[0-8]\b");
-            if (match.Success && int.TryParse(match.Value, out var move) && emptyCells.Contains(move))
-                return move;
+            foreach (var line in WinLines)
+            {
+                var (a, b, c) = (line[0], line[1], line[2]);
+                if (board[a] is not null && board[a] == board[b] && board[b] == board[c])
+                    return board[a];
+            }
 
-            _logger.LogWarning("TicTacToe AI reply {Reply} wasn't a usable move - falling back to random.", reply);
-            return emptyCells[Random.Shared.Next(emptyCells.Count)];
+            return null;
         }
     }
 }
