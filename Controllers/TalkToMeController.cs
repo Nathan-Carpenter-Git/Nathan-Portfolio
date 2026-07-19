@@ -101,7 +101,7 @@ namespace NathanPortfolio.Controllers
             "This chat widget is embedded on the portfolio site alongside my resume, projects, and " +
             "contact page; visitors can see those too, so it's fine to reference them.";
 
-        private const string DefaultSystemContext = NathanPersona + DefaultWidgetContext;
+        private const string DefaultSystemContext = NathanPersona + "\n\n" + DefaultWidgetContext;
 
         private readonly IOpenRouterService _openRouter;
         private readonly ILogger<TalkToMeController> _logger;
@@ -147,7 +147,7 @@ namespace NathanPortfolio.Controllers
 
             // NathanPersona (identity, tone, scope/boundary rules) always applies and is never
             // client-overridable; only the trailing "widget" note can be swapped out.
-            var context = NathanPersona + (string.IsNullOrWhiteSpace(request.SystemContext)
+            var context = NathanPersona + "\n\n" + (string.IsNullOrWhiteSpace(request.SystemContext)
                 ? DefaultWidgetContext
                 : request.SystemContext.Trim());
 

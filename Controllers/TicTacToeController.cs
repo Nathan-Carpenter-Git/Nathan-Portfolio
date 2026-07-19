@@ -95,8 +95,8 @@ namespace NathanPortfolio.Controllers
         private int ParseMoveIndex(string reply, List<int> emptyCells)
         {
             var match = Regex.Match(reply, @"\b[0-8]\b");
-            if (match.Success && emptyCells.Contains(int.Parse(match.Value)))
-                return int.Parse(match.Value);
+            if (match.Success && int.TryParse(match.Value, out var move) && emptyCells.Contains(move))
+                return move;
 
             _logger.LogWarning("TicTacToe AI reply {Reply} wasn't a usable move - falling back to random.", reply);
             return emptyCells[Random.Shared.Next(emptyCells.Count)];
