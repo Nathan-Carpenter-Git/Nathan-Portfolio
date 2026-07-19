@@ -2511,3 +2511,125 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ── Tic Tac Toe ── */
+.ttt-page {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 40px 24px 64px;
+    position: relative;
+    z-index: 1;
+}
+
+.ttt-topbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.ttt-topbar-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: 0.02em;
+}
+
+.ttt-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    min-height: 1.2em;
+}
+
+.ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(72px, 96px));
+    grid-template-rows: repeat(3, minmax(72px, 96px));
+    gap: 8px;
+    background: var(--border-subtle);
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: var(--glow-sm);
+}
+
+.ttt-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: none;
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 2.4rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+    .ttt-cell:hover:not(:disabled) {
+        background: var(--bg-card-hover);
+    }
+
+    .ttt-cell:disabled {
+        cursor: default;
+    }
+
+    .ttt-cell.ttt-x {
+        color: var(--accent-cyan);
+    }
+
+    .ttt-cell.ttt-o {
+        color: var(--accent-amber);
+    }
+
+    .ttt-cell.ttt-win {
+        background: rgba(57, 255, 20, 0.12);
+        box-shadow: inset 0 0 0 2px var(--accent-green);
+    }
+
+.ttt-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.ttt-btn {
+    padding: 10px 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .ttt-btn:hover {
+        border-color: rgba(0, 229, 255, 0.35);
+        color: var(--accent-cyan);
+        background: rgba(0, 229, 255, 0.06);
+    }
+
+.ttt-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 360px;
+}
+
+    .ttt-hint strong {
+        color: var(--text-primary);
+    }
+
+@media (max-width: 480px) {
+    .ttt-board {
+        grid-template-columns: repeat(3, minmax(64px, 84px));
+        grid-template-rows: repeat(3, minmax(64px, 84px));
+    }
+}
