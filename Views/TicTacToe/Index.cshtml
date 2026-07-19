@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Tic Tac Toe";
+    ViewData["Description"] = "Play tic-tac-toe against an AI opponent - it plays smart, but slips up about 1 in 4 moves.";
+}
+
+<div class="ttt-page">
+
+    <div class="ttt-topbar">
+        <span class="ttt-topbar-title">Tic Tac Toe</span>
+        <div class="ttt-status" id="tttStatus" role="status" aria-live="polite">Dealing you in...</div>
+    </div>
+
+    <div class="ttt-board" id="tttBoard" role="grid" aria-label="Tic tac toe board">
+        @for (var i = 0; i < 9; i++)
+        {
+            <button type="button" class="ttt-cell" data-index="@i" aria-label="Cell @(i + 1) of 9, empty"></button>
+        }
+    </div>
+
+    <div class="ttt-controls">
+        <button type="button" class="ttt-btn" id="tttNewGame">New Game</button>
+    </div>
+
+    <p class="ttt-hint">You're playing <strong id="tttPlayerMark">-</strong>. The AI plays the rest, and gets it wrong about 1 in 4 moves.</p>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/tictactoe.js" asp-append-version="true"></script>
+}
