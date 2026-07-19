@@ -8,7 +8,6 @@ const WIN_LINES = [
 
 const boardEl = document.getElementById('tttBoard');
 const statusEl = document.getElementById('tttStatus');
-const playerMarkEl = document.getElementById('tttPlayerMark');
 const cells = Array.from(boardEl.querySelectorAll('.ttt-cell'));
 
 let board = Array(9).fill(null);
@@ -34,7 +33,6 @@ function startNewGame() {
     humanMark = Math.random() < 0.5 ? 'X' : 'O';
     aiMark = humanMark === 'X' ? 'O' : 'X';
 
-    playerMarkEl.textContent = humanMark;
     cells.forEach((cell, i) => {
         cell.textContent = '';
         cell.className = 'ttt-cell';
@@ -102,7 +100,9 @@ function currentTurnMark() {
 function placeMark(index, mark) {
     board[index] = mark;
     const cell = cells[index];
-    cell.textContent = mark;
+    // O is drawn as a CSS circle (see .ttt-cell.ttt-o::after) instead of the font
+    // glyph, which renders as an oval rather than a true circle.
+    cell.textContent = mark === 'X' ? 'X' : '';
     cell.classList.add(mark === 'X' ? 'ttt-x' : 'ttt-o');
     cell.disabled = true;
     cell.setAttribute('aria-label', `Cell ${index + 1} of 9, ${mark}`);

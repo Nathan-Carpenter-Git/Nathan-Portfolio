@@ -15,6 +15,10 @@ namespace NathanPortfolio.CustomServices
         private const string Model = "openrouter/free";
         private const int MaxContextTokens = 200_000;
 
+        // How many times to retry a request that comes back with no usable reply
+        // (empty content, no choices) before giving up.
+        private const int MaxAttempts = 3;
+
         private const int SafeCharLimit = (MaxContextTokens - 1_500) * 4;
 
         private const string OpenRouterUrl = "https://openrouter.ai/api/v1/chat/completions";
@@ -41,9 +45,38 @@ namespace NathanPortfolio.CustomServices
         public async Task<string> SendMessageAsync(List<ChatMessage> history, string systemContext)
         {
             var apiKey = await GetApiKeyAsync();
-
             var messages = BuildMessages(history, systemContext);
 
+            for (var attempt = 1; attempt <= MaxAttempts; attempt++)
+            {
+                var isLastAttempt = attempt == MaxAttempts;
+
+                try
+                {
+                    var reply = await SendRequestAsync(messages, apiKey);
+                    if (!string.IsNullOrWhiteSpace(reply))
+                        return reply;
+
+                    if (isLastAttempt)
+                        throw new InvalidOperationException("OpenRouter returned an empty reply.");
+
+                    _logger.LogWarning(
+                        "OpenRouter returned an empty reply (attempt {Attempt}/{MaxAttempts}) - retrying.",
+                        attempt, MaxAttempts);
+                }
+                catch (Exception ex) when (!isLastAttempt)
+                {
+                    _logger.LogWarning(ex,
+                        "OpenRouter request failed (attempt {Attempt}/{MaxAttempts}) - retrying.",
+                        attempt, MaxAttempts);
+                }
+            }
+
+            throw new InvalidOperationException("OpenRouter did not return a usable reply.");
+        }
+
+        private async Task<string> SendRequestAsync(List<ChatMessage> messages, string apiKey)
+        {
             var requestBody = new
             {
                 model = Model,
@@ -60,7 +93,6 @@ namespace NathanPortfolio.CustomServices
             };
             request.Headers.Authorization =
                 new AuthenticationHeaderValue("Bearer", apiKey);
-
 
             request.Headers.TryAddWithoutValidation("HTTP-Referer", "https://nathansporfolio.azurewebsites.net");
             request.Headers.TryAddWithoutValidation("X-Title", "Nathan's Portfolio");

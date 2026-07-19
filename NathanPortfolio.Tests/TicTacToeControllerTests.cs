@@ -119,14 +119,14 @@ namespace NathanPortfolio.Tests
         }
 
         [Fact]
-        public async Task Move_OverManyCalls_AiIsInstructedToDeliberatelyMistakeAboutOneQuarterOfTheTime()
+        public async Task Move_OverManyCalls_AiIsInstructedToDeliberatelyMistakeAboutOnePercentOfTheTime()
         {
             var openRouterMock = new Mock<IOpenRouterService>();
             openRouterMock.Setup(s => s.SendMessageAsync(It.IsAny<List<ChatMessage>>(), It.IsAny<string>()))
                           .ReturnsAsync("0");
             var controller = CreateController(openRouterMock);
 
-            const int trials = 400;
+            const int trials = 5000;
             var mistakeInstructions = 0;
 
             for (var i = 0; i < trials; i++)
@@ -137,10 +137,11 @@ namespace NathanPortfolio.Tests
                     mistakeInstructions++;
             }
 
-            // 25% target over 400 trials; allow generous slack (12%-38%) to avoid a flaky test
-            // while still catching the mistake-instruction path being broken or never firing.
+            // 1% target over 5000 trials (mean 50, stddev ~7); allow generous slack (0.3%-2%)
+            // to avoid a flaky test while still catching the mistake-instruction path being
+            // broken, never firing, or reverted to the old 25% rate.
             var rate = mistakeInstructions / (double)trials;
-            Assert.InRange(rate, 0.12, 0.38);
+            Assert.InRange(rate, 0.003, 0.02);
         }
 
         private static int GetIndex(object? value)
