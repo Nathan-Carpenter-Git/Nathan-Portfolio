@@ -48,7 +48,7 @@ if (wrapper && canvas) {
             renderPage();
         })
         .catch(() => {
-            loadingEl.textContent = 'Preview unavailable - please use the download button above.';
+            loadingEl.textContent = 'Preview unavailable. Please use the download button above.';
         });
 
     let resizeTimer;

@@ -110,7 +110,7 @@ async function sendMessage() {
 
     } catch (err) {
         document.getElementById('typingIndicator')?.remove();
-        const errRow = renderMessage('assistant', 'Network error - please try again.');
+        const errRow = renderMessage('assistant', 'Network error. Please try again.');
         errRow.querySelector('.chat-bubble').classList.add('error');
         // Roll back the user message that failed
         messageHistory.pop();
