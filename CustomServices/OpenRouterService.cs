@@ -244,8 +244,10 @@ namespace NathanPortfolio.CustomServices
             // The system prompt asks the model not to use dashes, but LLM output isn't
             // guaranteed to follow stylistic instructions, enforce it deterministically so
             // replies always match the site's dash-free style. Normalize surrounding
-            // whitespace too, since models often omit spaces around em dashes.
-            return Regex.Replace(content, @"\s*(—|&mdash;)\s*", ", ");
+            // whitespace too, since models often omit spaces around em/en dashes. A bare
+            // hyphen is only treated as a pause dash (not a hyphenated compound word) when
+            // it has whitespace on both sides.
+            return Regex.Replace(content, @"\s*(—|–|&mdash;|&ndash;)\s*|\s+-\s+", ", ");
         }
     }
 }
