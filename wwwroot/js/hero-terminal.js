@@ -53,12 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         whoami: {
             desc: 'display current identity',
-            run: () => appendLine('nathan-carpenter - IT &amp; Network Professional', 't-out')
+            run: () => appendLine('nathan-carpenter, IT &amp; Network Professional', 't-out')
         },
         about: {
             desc: 'read a short bio',
             run: () => {
-                appendLine('Building secure, scalable infrastructure - from multi-site banking networks to Azure cloud deployments.', 't-out');
+                appendLine('Building secure, scalable infrastructure: from multi-site banking networks to Azure cloud deployments.', 't-out');
                 appendLine('→ scrolling to About Me…', 't-out t-dim');
                 scrollToId('about');
             }
@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
         projects: {
             desc: 'notable projects',
             run: () => {
-                appendLine('Wi-Fi Hardening - replaced insecure Wi-Fi with RADIUS + EAP-TLS, HA NPS, isolated BYOD access', 't-out');
-                appendLine('Zabbix SNMP System - containerized monitoring stack with SNMP traps and executive SLA reporting', 't-out');
+                appendLine('Wi-Fi Hardening: replaced insecure Wi-Fi with RADIUS + EAP-TLS, HA NPS, isolated BYOD access', 't-out');
+                appendLine('Zabbix SNMP System: containerized monitoring stack with SNMP traps and executive SLA reporting', 't-out');
                 appendLine('→ for GitHub repos and shipped games, see the <a href="/Projects">Projects page</a>.', 't-out t-dim');
             }
         },
@@ -122,11 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         sudo: {
             hidden: true,
-            run: () => appendLine("Nice try. Permission denied: 'you' is not in the sudoers file. This incident will be reported. (Kidding - try " + cmdLink('contact') + " instead.)", 't-out t-error')
+            run: () => appendLine("Nice try. Permission denied: 'you' is not in the sudoers file. This incident will be reported. (Kidding, try " + cmdLink('contact') + " instead.)", 't-out t-error')
         },
         ls: {
             hidden: true,
-            run: () => appendLine('about.md  certifications.json  resume.pdf  projects/  contact.sh - try ' + cmdLink('help') + ' to actually run something', 't-out')
+            run: () => appendLine('about.md  certifications.json  resume.pdf  projects/  contact.sh, try ' + cmdLink('help') + ' to actually run something', 't-out')
         }
     };
 
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.entries(COMMANDS)
             .filter(([, cmd]) => !cmd.hidden)
             .forEach(([name, cmd]) => {
-                appendLine(`${cmdLink(name)}<span class="t-help-desc"> - ${cmd.desc}</span>`, 't-out t-help-line');
+                appendLine(`${cmdLink(name)}<span class="t-help-desc">: ${cmd.desc}</span>`, 't-out t-help-line');
             });
     }
 
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         if (!match) {
-            appendLine(`command not found: ${escapeHtml(trimmed)} - type ${cmdLink('help')} to see available commands.`, 't-out t-error');
+            appendLine(`command not found: ${escapeHtml(trimmed)}. Type ${cmdLink('help')} to see available commands.`, 't-out t-error');
         } else {
             match[1].run();
         }

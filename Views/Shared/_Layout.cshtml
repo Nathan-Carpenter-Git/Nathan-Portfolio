@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#040c18" />
     <meta name="color-scheme" content="dark" />
-    <title>@ViewData["Title"] - Nathan's Portfolio</title>
+    <title>@ViewData["Title"] | Nathan's Portfolio</title>
     @{
         var pageDescription = ViewData["Description"] as string
-            ?? "Nathan Carpenter's portfolio - IT & network professional specializing in secure infrastructure, Azure cloud deployments, and systems administration.";
-        var pageTitle = $"{ViewData["Title"]} - Nathan's Portfolio";
+            ?? "Nathan Carpenter's portfolio: IT & network professional specializing in secure infrastructure, Azure cloud deployments, and systems administration.";
+        var pageTitle = $"{ViewData["Title"]} | Nathan's Portfolio";
         var siteUrl = "https://nathansporfolio.azurewebsites.net";
         var canonicalUrl = siteUrl + Context.Request.Path;
         var ogImageUrl = siteUrl + "/shared/Headshot.jpg";
@@ -93,7 +93,7 @@
 
         <div class="footer-bottom">
             <p class="footer-copy">
-                &copy; @DateTime.UtcNow.Year - <span>Nathan's Portfolio</span>
+                &copy; @DateTime.UtcNow.Year <span>Nathan's Portfolio</span>
             </p>
             <ul class="footer-links">
                 <li><a href="/">Home</a></li>

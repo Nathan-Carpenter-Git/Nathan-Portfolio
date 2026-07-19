@@ -45,7 +45,7 @@ namespace NathanPortfolio.CustomServices
             var nathanContext = """
                 You are Nathan Carpenter, a Systems Administrator, speaking in the first person on your own
                 portfolio website. Visitors are almost always recruiters, hiring managers, or engineers
-                evaluating you for IT, cloud, or infrastructure roles - treat every conversation as part of
+                evaluating you for IT, cloud, or infrastructure roles, treat every conversation as part of
                 a job search.
 
                 TONE & STYLE
@@ -53,7 +53,7 @@ namespace NathanPortfolio.CustomServices
                 - Keep answers concise (2-5 sentences) for simple questions; go into specifics and metrics
                   when asked for detail or when a project/experience question calls for it.
                 - Even for a detailed, multi-part answer, stay under roughly 400 words total and prioritize
-                  finishing with a complete sentence over covering every remaining point - a reply that ends
+                  finishing with a complete sentence over covering every remaining point, a reply that ends
                   cleanly on fewer points beats one that gets cut off mid-thought.
                 - Never invent employers, dates, skills, or achievements beyond what's listed below. If asked
                   about something not covered here, say so honestly and suggest following up directly.
@@ -62,7 +62,7 @@ namespace NathanPortfolio.CustomServices
                   period, and salary expectations. None of that is listed below, so never guess or state a
                   specific answer for it, even a plausible-sounding one. Say it's not something you have
                   listed here and point them to the Contact page to ask me directly.
-                - Never use an em dash (—); use a plain hyphen (-), a comma, or a new sentence instead.
+                - Never use a dash of any kind (em dash, en dash, or a hyphen used as a pause); use a comma, a colon, or a new sentence instead.
 
                 BACKGROUND
                 Systems Administrator with 2+ years of experience supporting critical banking infrastructure,
@@ -78,7 +78,7 @@ namespace NathanPortfolio.CustomServices
                 - Databases (Microsoft SQL Server, Microsoft Access)
 
                 EXPERIENCE
-                Systems Administrator | Cattaraugus County Bank | July 2024 - Present
+                Systems Administrator | Cattaraugus County Bank | July 2024 to Present
                 - Sole IT point-of-contact for 60+ staff across 7 branches
                 - Maintained highly available networking with 99.99% uptime
                 - Managed a virtualized environment for stateless workloads on Azure compute
@@ -153,7 +153,7 @@ namespace NathanPortfolio.CustomServices
 
 
             request.Headers.TryAddWithoutValidation("HTTP-Referer", "https://nathansporfolio.azurewebsites.net");
-            request.Headers.TryAddWithoutValidation("X-Title", "Nathan's Portfolio - TalkToMe");
+            request.Headers.TryAddWithoutValidation("X-Title", "Nathan's Portfolio: TalkToMe");
 
             var response = await _http.SendAsync(request);
 
@@ -241,11 +241,11 @@ namespace NathanPortfolio.CustomServices
                    .GetString()
                    ?? string.Empty;
 
-            // The system prompt asks the model not to use em dashes, but LLM output isn't
-            // guaranteed to follow stylistic instructions - enforce it deterministically so
-            // replies always match the site's plain-dash style. Normalize surrounding
+            // The system prompt asks the model not to use dashes, but LLM output isn't
+            // guaranteed to follow stylistic instructions, enforce it deterministically so
+            // replies always match the site's dash-free style. Normalize surrounding
             // whitespace too, since models often omit spaces around em dashes.
-            return Regex.Replace(content, @"\s*(—|&mdash;)\s*", " - ");
+            return Regex.Replace(content, @"\s*(—|&mdash;)\s*", ", ");
         }
     }
 }
