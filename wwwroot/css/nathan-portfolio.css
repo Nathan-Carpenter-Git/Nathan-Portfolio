@@ -2584,8 +2584,13 @@ body {
         color: var(--accent-cyan);
     }
 
-    .ttt-cell.ttt-o {
-        color: var(--accent-amber);
+    .ttt-cell.ttt-o::after {
+        content: '';
+        width: 0.72em;
+        height: 0.72em;
+        border-radius: 50%;
+        border: 0.11em solid var(--accent-amber);
+        box-sizing: border-box;
     }
 
     .ttt-cell.ttt-win {
@@ -2622,10 +2627,6 @@ body {
     text-align: center;
     max-width: 360px;
 }
-
-    .ttt-hint strong {
-        color: var(--text-primary);
-    }
 
 @media (max-width: 480px) {
     .ttt-board {

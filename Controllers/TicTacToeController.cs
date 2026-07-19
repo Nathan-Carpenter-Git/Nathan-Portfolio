@@ -9,7 +9,7 @@ namespace NathanPortfolio.Controllers
     public class TicTacToeController(IOpenRouterService openRouter, ILogger<TicTacToeController> logger) : Controller
     {
         // How often the AI is instructed to play a deliberately suboptimal move.
-        private const double MistakeChance = 0.25;
+        private const double MistakeChance = 0.01;
 
         private readonly IOpenRouterService _openRouter = openRouter;
         private readonly ILogger<TicTacToeController> _logger = logger;
