@@ -13,6 +13,20 @@ namespace NathanPortfolio.Controllers
         private readonly IItchService _itchService = itchService;
         private readonly ILogger<ProjectsController> _logger = logger;
 
+        // Games that live here rather than on itch.io (web apps, not downloadable builds).
+        // Shown ahead of the itch.io feed, and shown even if the itch.io API call fails.
+        private static readonly List<ItchGame> FeaturedWebGames =
+        [
+            new ItchGame
+            {
+                Title = "Headbands",
+                Url = "https://headbands.onrender.com",
+                CoverUrl = "/shared/games/headbands-cover.svg",
+                ShortText = "An online party game where everyone can see the card on your head except you.",
+                PublishedAt = new DateTimeOffset(2026, 9, 19, 0, 0, 0, TimeSpan.Zero)
+            }
+        ];
+
         public async Task<IActionResult> Index()
         {
             var reposTask = LoadReposAsync();
@@ -50,12 +64,13 @@ namespace NathanPortfolio.Controllers
         {
             try
             {
-                return (await _itchService.GetRecentGamesAsync(3), true);
+                var itchGames = await _itchService.GetRecentGamesAsync(3);
+                return ([.. FeaturedWebGames, .. itchGames], true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to load recent itch.io games.");
-                return ([], false);
+                return (FeaturedWebGames.Count > 0 ? (FeaturedWebGames, true) : ([], false));
             }
         }
     }
