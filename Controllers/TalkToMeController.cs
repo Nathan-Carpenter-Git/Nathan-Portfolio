@@ -43,7 +43,7 @@ namespace NathanPortfolio.Controllers
             - Databases (Microsoft SQL Server, Microsoft Access)
 
             EXPERIENCE
-            Systems Administrator | Cattaraugus County Bank | July 2024 - Present
+            Systems Administrator | Cattaraugus County Bank | July 2024 - November 2026
             - Sole IT point-of-contact for 60+ staff across 7 branches
             - Maintained highly available networking with 99.99% uptime
             - Managed a virtualized environment for stateless workloads on Azure compute
