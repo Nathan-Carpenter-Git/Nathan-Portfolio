@@ -4,9 +4,17 @@ using NathanPortfolio.Models;
 
 namespace NathanPortfolio.Controllers
 {
-    public class ContactController(IEmailSender emailSender) : Controller
+    public class ContactController(IEmailSender emailSender, ITurnstileValidator turnstileValidator) : Controller
     {
+        public const string SentMessage = "Email Sent Successfully";
+        public const string FailedMessage = "Email Sent Unsuccessfully";
+        public const string CaptchaFailedMessage = "Captcha Verification Failed";
+
+        // Form field the Turnstile widget adds to the form it sits in.
+        private const string TurnstileField = "cf-turnstile-response";
+
         private readonly IEmailSender _emailSender = emailSender;
+        private readonly ITurnstileValidator _turnstileValidator = turnstileValidator;
 
         public IActionResult Index()
         {
@@ -16,21 +24,29 @@ namespace NathanPortfolio.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(ContactUserMessage contactUserMessage)
         {
-            try
-            {
-                await _emailSender.SendEmailAsync(contactUserMessage.FirstName, contactUserMessage.LastName, contactUserMessage.Email, contactUserMessage.Message);
+            string responseMessage;
 
-                ViewBag.ResponseMessage = "Email Sent Successfully";
+            string? token = Request.HasFormContentType ? Request.Form[TurnstileField].ToString() : null;
+
+            if (!await _turnstileValidator.ValidateAsync(token, HttpContext.RequestAborted))
+            {
+                responseMessage = CaptchaFailedMessage;
+            }
+            else
+            {
+                try
+                {
+                    await _emailSender.SendEmailAsync(contactUserMessage.FirstName, contactUserMessage.LastName, contactUserMessage.Email, contactUserMessage.Message);
+
+                    responseMessage = SentMessage;
+                }
+                catch
+                {
+                    responseMessage = FailedMessage;
+                }
             }
 
-            catch
-            {
-                ViewBag.ResponseMessage = "Email Sent Unsuccessfully";
-            }
-
-            string? baseUrl = Url.Action("Index", "Contact", null, Request.Scheme);
-
-            return Redirect(baseUrl + $"?ResponseMessage={ViewBag.ResponseMessage}");
+            return RedirectToAction(nameof(Index), new { ResponseMessage = responseMessage });
         }
     }
 }

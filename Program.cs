@@ -16,6 +16,11 @@ builder.Services.AddHttpClient("GitHub");
 builder.Services.AddSingleton<IGitHubService, GitHubService>();
 builder.Services.AddHttpClient("Itch");
 builder.Services.AddSingleton<IItchService, ItchService>();
+builder.Services.AddHttpClient(TurnstileValidator.HttpClientName, client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+});
+builder.Services.AddSingleton<ITurnstileValidator, TurnstileValidator>();
 builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
@@ -67,8 +72,11 @@ app.Use(async (context, next) =>
     // style-src needs 'unsafe-inline' for the Projects page's per-repo language-color
     // swatch (style="background:...") - script-src stays nonce-only, which is the
     // directive that actually matters for blocking injected/XSS script execution.
+    // challenges.cloudflare.com serves the Turnstile captcha script and its iframe
+    // on the Contact page.
     context.Response.Headers["Content-Security-Policy"] =
-        $"default-src 'self'; script-src 'self' 'nonce-{nonce}'; style-src 'self' 'unsafe-inline'; " +
+        $"default-src 'self'; script-src 'self' 'nonce-{nonce}' https://challenges.cloudflare.com; " +
+        "style-src 'self' 'unsafe-inline'; frame-src https://challenges.cloudflare.com; " +
         "img-src 'self' https://img.itch.zone; font-src 'self'; connect-src 'self'; " +
         "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'";
     await next();
