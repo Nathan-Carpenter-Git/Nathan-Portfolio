@@ -1,9 +1,12 @@
 @model ContactUserMessage
+@using NathanPortfolio.Controllers
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 
 @{
     ViewData["Title"] = "Contact";
     ViewData["Description"] = "Get in touch with Nathan Carpenter about IT, networking, or cloud infrastructure opportunities.";
     string responseMessage = Context.Request.Query["ResponseMessage"].ToString();
+    string turnstileSiteKey = Configuration["Turnstile:SiteKey"] ?? "";
 }
 
 <section class="nc-section contact-section">
@@ -74,13 +77,19 @@
 
                 @if (!String.IsNullOrEmpty(responseMessage))
                 {
-                    if (responseMessage == "Email Sent Unsuccessfully")
+                    if (responseMessage == ContactController.FailedMessage)
                     {
                         <div class="nc-response nc-response-error">
                             ✕ &nbsp;@responseMessage. Please try again.
                         </div>
                     }
-                    else if (responseMessage == "Email Sent Successfully")
+                    else if (responseMessage == ContactController.CaptchaFailedMessage)
+                    {
+                        <div class="nc-response nc-response-error">
+                            ✕ &nbsp;@responseMessage. Please complete the check and try again.
+                        </div>
+                    }
+                    else if (responseMessage == ContactController.SentMessage)
                     {
                         <div class="nc-response nc-response-success">
                             ✓ &nbsp;@responseMessage. I'll be in touch soon!
@@ -116,6 +125,8 @@
                                   class="nc-textarea" placeholder="Enter your message..."></textarea>
                     </div>
 
+                    <div class="nc-captcha" id="contact-captcha" data-sitekey="@turnstileSiteKey"></div>
+
                     <input type="submit" class="nc-submit" value="Send Message" />
 
                 </form>
@@ -124,6 +135,21 @@
 
     </div>
 </section>
+
+<script nonce="@Context.Items["csp-nonce"]">
+    // Turnstile's full-width widget needs at least 300px, so narrow phones get the compact one.
+    window.onTurnstileLoad = function () {
+        const el = document.getElementById('contact-captcha');
+        const compact = el.clientWidth < 300;
+        el.classList.toggle('nc-captcha-compact', compact);
+        turnstile.render(el, {
+            sitekey: el.dataset.sitekey,
+            theme: 'dark',
+            size: compact ? 'compact' : 'flexible'
+        });
+    };
+</script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" nonce="@Context.Items["csp-nonce"]" async defer></script>
 
 <script nonce="@Context.Items["csp-nonce"]">
     // Trigger reveal animation on the form card

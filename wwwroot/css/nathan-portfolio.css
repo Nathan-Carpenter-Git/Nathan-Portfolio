@@ -1782,6 +1782,7 @@ body {
 @media (max-width: 480px) {
     .form-row-2 {
         grid-template-columns: 1fr;
+        row-gap: 0; /* each .nc-form-group already has margin-bottom */
     }
 }
 
@@ -1831,6 +1832,19 @@ body {
     resize: vertical;
     min-height: 130px;
 }
+
+/* Turnstile captcha: reserve the widget's height so the button doesn't jump when it loads */
+.nc-captcha {
+    min-height: 65px;
+    margin-bottom: 20px;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+    .nc-captcha.nc-captcha-compact {
+        min-height: 140px;
+        width: fit-content;
+    }
 
 /* Response messages */
 .nc-response {
